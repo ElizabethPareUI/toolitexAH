@@ -1,18 +1,10 @@
 const dotenv = require('dotenv');
+
+dotenv.config();
+
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
-
-// --- Depuración de dotenv ---
-const result = dotenv.config();
-
-if (result.error) {
-  console.error('Error al parsear el archivo .env:', result.error);
-  process.exit(1);
-}
-
-console.log('Variables parseadas desde .env:', result.parsed);
-// --- Fin de la depuración ---
 
 const app = express();
 
