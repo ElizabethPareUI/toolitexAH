@@ -5,15 +5,7 @@ const Product = require('../models/Product');
 // @route   POST /api/orders
 // @access  Private
 exports.addOrderItems = async (req, res) => {
-  const { 
-    orderItems, 
-    shippingAddress, 
-    paymentMethod, 
-    itemsPrice, 
-    taxPrice, 
-    shippingPrice, 
-    totalPrice 
-  } = req.body;
+  const { orderItems } = req.body; // Solo items, sin datos de pago o envío
 
   if (orderItems && orderItems.length === 0) {
     res.status(400);
@@ -21,16 +13,7 @@ exports.addOrderItems = async (req, res) => {
   }
 
   try {
-    const order = new Order({
-      orderItems,
-      user: req.user.id,
-      shippingAddress,
-      paymentMethod,
-      itemsPrice,
-      taxPrice,
-      shippingPrice,
-      totalPrice,
-    });
+    const order = new Order({ orderItems, user: req.user.id });
 
     const createdOrder = await order.save();
 

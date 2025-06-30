@@ -16,7 +16,7 @@ const products = [
     description: 'Hilo de algodón 100% orgánico, ideal para tejidos suaves y prendas delicadas.',
     brand: 'EcoFiber',
     category: 'Hilos',
-    price: 6500,
+    price: Math.max(6500, 1000),
     countInStock: 75,
     rating: 4.6,
     numReviews: 18,

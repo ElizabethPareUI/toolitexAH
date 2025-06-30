@@ -33,7 +33,9 @@ const importData = async () => {
     const adminUser = createdUsers[0]._id;
 
     const sampleProducts = products.map((product) => {
-      return { ...product, user: adminUser };
+      // Asegurar precio mínimo de 1000
+      const price = product.price < 1000 ? 1000 : product.price;
+      return { ...product, price, user: adminUser };
     });
 
     await Product.insertMany(sampleProducts);
