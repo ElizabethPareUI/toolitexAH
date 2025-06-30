@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Container, Row, Col, Card, Button, Badge, Alert } from 'react-bootstrap';
 import { useSelector } from 'react-redux';
+import './ProviderDashboard.scss';
 
 const ProviderDashboard = () => {
   const [visitedStores, setVisitedStores] = useState([]);
@@ -193,21 +194,6 @@ const ProviderDashboard = () => {
           </Row>
         )}
       </Container>
-      
-      <style jsx>{`
-        .hover-card {
-          transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
-        }
-        .hover-card:hover {
-          transform: translateY(-2px);
-          box-shadow: 0 8px 25px rgba(0,0,0,0.15) !important;
-        }
-        .store-icon {
-          display: flex;
-          align-items: center;
-          justify-content: center;
-        }
-      `}</style>
     </>
   );
 };

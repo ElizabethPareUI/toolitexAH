@@ -32,12 +32,27 @@ export const login = (email, password) => async (dispatch) => {
 
     localStorage.setItem('userInfo', JSON.stringify(data));
   } catch (error) {
+    let errorMessage = 'Error de conexión. Intenta nuevamente.';
+    
+    if (error.response) {
+      // Error HTTP del servidor
+      if (error.response.status === 400) {
+        errorMessage = 'Credenciales inválidas. Verifica tu email y contraseña.';
+      } else if (error.response.status === 401) {
+        errorMessage = 'Email o contraseña incorrectos.';
+      } else if (error.response.data && error.response.data.message) {
+        errorMessage = error.response.data.message;
+      } else {
+        errorMessage = `Error del servidor (${error.response.status})`;
+      }
+    } else if (error.request) {
+      // Error de red
+      errorMessage = 'No se pudo conectar al servidor. Verifica tu conexión a internet.';
+    }
+    
     dispatch({
       type: USER_LOGIN_FAIL,
-      payload:
-        error.response && error.response.data.message
-          ? error.response.data.message
-          : error.message,
+      payload: errorMessage,
     });
   }
 };

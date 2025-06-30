@@ -21,7 +21,7 @@ router.get('/profile', authMiddleware, async (req, res) => {
       res.status(404).json({ message: 'Usuario no encontrado' });
     }
   } catch (error) {
-    console.error(error.message);
+    console.error('Error en GET /profile:', error.message);
     res.status(500).send('Error del servidor');
   }
 });

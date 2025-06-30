@@ -1,4 +1,5 @@
 const Product = require('../models/Product');
+const User = require('../models/User');
 
 // @desc    Crear un nuevo producto
 // @route   POST /api/products
@@ -159,11 +160,6 @@ exports.deleteProduct = async (req, res) => {
 // @access  Private
 exports.getPankyProducts = async (req, res) => {
   try {
-    console.log('=== getPankyProducts llamado ===');
-    console.log('Headers recibidos:', req.headers);
-    console.log('User from auth middleware:', req.user);
-    console.log('Query params:', req.query);
-    
     const pageSize = Number(req.query.limit) || 6;
     const page = Number(req.query.page) || 1;
 
@@ -224,11 +220,70 @@ exports.getPankyProducts = async (req, res) => {
         },
       },
     });
-    
-    console.log('=== Respuesta enviada exitosamente ===');
   } catch (error) {
     console.error(`Error fetching Panky products: ${error.message}`);
-    console.error('Stack trace:', error.stack);
     res.status(500).send('Error del Servidor');
+  }
+};
+
+// @desc    Crear un nuevo producto (solo admin de Panky)
+// @route   POST /api/products/panky
+// @access  Private/Admin
+exports.createPankyProduct = async (req, res) => {
+  try {
+    console.log('=== createPankyProduct llamado ===');
+    console.log('req.body:', req.body);
+    console.log('req.file:', req.file);
+    console.log('req.user:', req.user);
+
+    // Verificar que sea admin de Panky
+    const adminUser = await User.findById(req.user.id);
+    if (!adminUser || !adminUser.isAdmin || adminUser.email !== 'adminpanky@test.com') {
+      return res.status(403).json({ message: 'No autorizado para crear productos de Panky' });
+    }
+
+    const {
+      name,
+      description,
+      price,
+      category,
+      countInStock,
+    } = req.body;
+
+    // Validaciones
+    if (!name || !description || !price || !category) {
+      return res.status(400).json({ message: 'Todos los campos son requeridos' });
+    }
+
+    if (price < 1000) {
+      return res.status(400).json({ message: 'El precio mínimo es $1,000' });
+    }
+
+    // Configurar imagen
+    let image = '/images/placeholder.png'; // Imagen por defecto
+    if (req.file) {
+      image = `/uploads/${req.file.filename}`;
+    }
+
+    // Crear el producto
+    const product = new Product({
+      name,
+      image,
+      brand: 'Panky', // Siempre será Panky para este admin
+      category,
+      description,
+      rating: 0,
+      numReviews: 0,
+      price: Number(price),
+      countInStock: Number(countInStock) || 0,
+      user: req.user.id,
+    });
+
+    const createdProduct = await product.save();
+
+    res.status(201).json(createdProduct);
+  } catch (error) {
+    console.error('Error creating Panky product:', error.message);
+    res.status(500).json({ message: 'Error del servidor', error: error.message });
   }
 };

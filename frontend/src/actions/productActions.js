@@ -12,6 +12,9 @@ import {
   PANKY_PRODUCTS_REQUEST,
   PANKY_PRODUCTS_SUCCESS,
   PANKY_PRODUCTS_FAIL,
+  PANKY_PRODUCT_CREATE_REQUEST,
+  PANKY_PRODUCT_CREATE_SUCCESS,
+  PANKY_PRODUCT_CREATE_FAIL,
 } from '../constants/productConstants';
 
 export const listProducts = (keyword = '', pageNumber = '', category = '', minPrice = '', maxPrice = '') => async (dispatch) => {
@@ -128,6 +131,46 @@ export const listPankyProducts = () => async (dispatch, getState) => {
   } catch (error) {
     dispatch({
       type: PANKY_PRODUCTS_FAIL,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message,
+    });
+  }
+};
+
+// Acción para crear un nuevo producto de Panky
+export const createPankyProduct = (productData) => async (dispatch, getState) => {
+  try {
+    dispatch({ type: PANKY_PRODUCT_CREATE_REQUEST });
+
+    // Crear FormData para enviar archivos
+    const formData = new FormData();
+    formData.append('name', productData.name);
+    formData.append('description', productData.description);
+    formData.append('price', productData.price);
+    formData.append('category', productData.category);
+    formData.append('countInStock', productData.countInStock);
+    
+    if (productData.image) {
+      formData.append('image', productData.image);
+    }
+
+    const config = {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    };
+
+    const { data } = await axios.post('/api/products/panky', formData, config);
+
+    dispatch({
+      type: PANKY_PRODUCT_CREATE_SUCCESS,
+      payload: data,
+    });
+  } catch (error) {
+    dispatch({
+      type: PANKY_PRODUCT_CREATE_FAIL,
       payload:
         error.response && error.response.data.message
           ? error.response.data.message

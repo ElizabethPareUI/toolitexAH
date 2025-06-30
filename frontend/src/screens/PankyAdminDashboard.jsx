@@ -6,6 +6,7 @@ import { logout } from '../actions/userActions';
 import { listPankyProducts } from '../actions/productActions';
 import PankyProductFilters from '../components/PankyProductFilters';
 import PankyPagination from '../components/PankyPagination';
+import PankyProductCreateModal from '../components/PankyProductCreateModal';
 import '../styles/panky-components.scss';
 
 const PankyAdminDashboard = () => {
@@ -23,6 +24,9 @@ const PankyAdminDashboard = () => {
     page: 1,
     limit: 6
   });
+
+  // Estado para el modal de crear producto
+  const [showCreateModal, setShowCreateModal] = useState(false);
 
   // Obtener información del usuario logueado
   const { userInfo } = useSelector((state) => state.userLogin);
@@ -45,6 +49,12 @@ const PankyAdminDashboard = () => {
     const updatedFilters = { ...filters, page: newPage };
     setFilters(updatedFilters);
     dispatch(listPankyProducts(updatedFilters));
+  };
+
+  // Manejar cuando se crea un producto exitosamente
+  const handleProductCreated = () => {
+    // Recargar la lista de productos
+    dispatch(listPankyProducts(filters));
   };
 
   useEffect(() => {
@@ -89,6 +99,14 @@ const PankyAdminDashboard = () => {
               </p>
             </div>
             <div>
+              <Button 
+                variant="success" 
+                className="me-2"
+                onClick={() => setShowCreateModal(true)}
+              >
+                <i className="fas fa-plus me-1"></i>
+                Agregar Producto
+              </Button>
               <Button 
                 variant="outline-secondary" 
                 className="me-2"
@@ -288,6 +306,13 @@ const PankyAdminDashboard = () => {
           </Col>
         </Row>
       )}
+
+      {/* Modal para crear producto */}
+      <PankyProductCreateModal
+        show={showCreateModal}
+        onHide={() => setShowCreateModal(false)}
+        onProductCreated={handleProductCreated}
+      />
     </Container>
   );
 };

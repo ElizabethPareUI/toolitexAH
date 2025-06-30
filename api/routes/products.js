@@ -6,12 +6,14 @@ const {
   createProduct,
   updateProduct,
   deleteProduct,
-  getPankyProducts, // Importar el nuevo controlador
+  getPankyProducts,
+  createPankyProduct, // Importar el nuevo controlador
 } = require('../controllers/productController');
 const authMiddleware = require('../middlewares/authMiddleware');
+const upload = require('../middlewares/uploadMiddleware');
 
 router.route('/').get(getAllProducts).post(authMiddleware, createProduct);
-router.route('/panky').get(authMiddleware, getPankyProducts); // Nueva ruta para Panky
+router.route('/panky').get(authMiddleware, getPankyProducts).post(authMiddleware, upload.single('image'), createPankyProduct); // Ruta para crear producto Panky
 router
   .route('/:id')
   .get(getProductById)

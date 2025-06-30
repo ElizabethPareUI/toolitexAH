@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
 import { Container, Row, Col, Card, Button, Badge, Alert, Modal, Form, Toast, ToastContainer } from 'react-bootstrap';
+import { listPankyProducts } from '../actions/productActions';
+import Loader from '../components/Loader';
 
 const PankyHiladosScreen = () => {
   const [providerInfo, setProviderInfo] = useState(null);
@@ -12,9 +14,13 @@ const PankyHiladosScreen = () => {
   const [showToast, setShowToast] = useState(false);
   const [toastMessage, setToastMessage] = useState('');
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   
   // Obtener información del usuario logueado para verificar si es admin
   const { userInfo } = useSelector((state) => state.userLogin);
+  
+  // Obtener productos de Panky desde la API
+  const { loading, error, products } = useSelector((state) => state.pankyProducts);
 
   useEffect(() => {
     // Verificar acceso de proveedor con validaciones adicionales de seguridad
@@ -39,12 +45,15 @@ const PankyHiladosScreen = () => {
       }
       
       setProviderInfo(parsedInfo);
+      
+      // Cargar productos de Panky desde la API
+      dispatch(listPankyProducts());
     } catch (error) {
       // Si hay error al parsear, eliminar el acceso y redirigir
       localStorage.removeItem('providerAccess');
       navigate('/proveedor');
     }
-  }, [navigate]);
+  }, [navigate, dispatch]);
 
   const handleLogout = () => {
     localStorage.removeItem('providerAccess');
@@ -112,90 +121,6 @@ Saludos cordiales.`;
     
     window.open(mailtoLink);
   };
-
-  // Productos específicos de Panky Hilados - Especialistas en Hilados Premium
-  const pankyHiladosProducts = [
-    {
-      id: 1,
-      name: 'Hilo Seda Premium Panky',
-      category: 'Sedas Naturales',
-      stock: 75,
-      priceProvider: 1000,
-      pricePublic: 1200,
-      supplier: 'Panky Premium Collection',
-      description: 'Seda 100% natural con brillo espectacular'
-    },
-    {
-      id: 2,
-      name: 'Lana Ovina Panky Select',
-      category: 'Lanas Seleccionadas',
-      stock: 120,
-      priceProvider: 1000,
-      pricePublic: 1300,
-      supplier: 'Panky Selections',
-      description: 'Lana ovina premium seleccionada a mano'
-    },
-    {
-      id: 3,
-      name: 'Hilo Metálico Panky Glam',
-      category: 'Hilos Especiales',
-      stock: 45,
-      priceProvider: 1000,
-      pricePublic: 1250,
-      supplier: 'Panky Glamour Line',
-      description: 'Hilos con fibras metálicas para proyectos únicos'
-    },
-    {
-      id: 4,
-      name: 'Chenille Panky Soft',
-      category: 'Texturas Premium',
-      stock: 80,
-      priceProvider: 1000,
-      pricePublic: 1100,
-      supplier: 'Panky Soft Touch',
-      description: 'Chenille ultra suave para mantas y cojines'
-    },
-    {
-      id: 5,
-      name: 'Lino Panky Natural',
-      category: 'Fibras Ecológicas',
-      stock: 95,
-      priceProvider: 1000,
-      pricePublic: 1150,
-      supplier: 'Panky Eco Line',
-      description: 'Lino 100% orgánico, perfecto para verano'
-    },
-    {
-      id: 6,
-      name: 'Kit Ganchillos Panky Pro',
-      category: 'Herramientas Panky',
-      stock: 30,
-      priceProvider: 1000,
-      pricePublic: 1250,
-      supplier: 'Panky Tools Professional',
-      description: 'Set profesional de ganchillos ergonómicos'
-    },
-    {
-      id: 7,
-      name: 'Hilo Acrílico Panky Colors',
-      category: 'Acrílicos Premium',
-      stock: 200,
-      priceProvider: 1000,
-      pricePublic: 1200,
-      supplier: 'Panky Color Range',
-      description: 'Acrílico premium en 50 colores vibrantes'
-    },
-    {
-      id: 8,
-      name: 'Lana Bouclé Panky Texture',
-      category: 'Texturas Especiales',
-      stock: 60,
-      priceProvider: 1000,
-      pricePublic: 1300,
-      supplier: 'Panky Texture Studio',
-      description: 'Bouclé con textura única para proyectos modernos'
-    }
-  ];
 
   if (!providerInfo) {
     return (
@@ -270,7 +195,7 @@ Saludos cordiales.`;
             <Card className="border-0 shadow-sm" style={{ background: 'linear-gradient(135deg, #6a0d83 0%, #a855f7 100%)' }}>
               <Card.Body className="text-center">
                 <h5 className="mb-1" style={{ color: 'white' }}>🎨 Productos Premium</h5>
-                <h2 className="mb-0" style={{ color: 'white', fontSize: '2.5rem' }}>{pankyHiladosProducts.length}</h2>
+                <h2 className="mb-0" style={{ color: 'white', fontSize: '2.5rem' }}>{products ? products.length : '0'}</h2>
                 <small style={{ color: 'white', opacity: '0.9' }}>Hilados y texturas exclusivas</small>
               </Card.Body>
             </Card>
@@ -291,17 +216,32 @@ Saludos cordiales.`;
         </Row>
 
         <Row>
-          {pankyHiladosProducts.map((product) => (
-            <Col lg={4} md={6} className="mb-4" key={product.id}>
+          {loading && (
+            <Col className="text-center">
+              <Loader />
+            </Col>
+          )}
+          
+          {error && (
+            <Col>
+              <Alert variant="danger">
+                Error al cargar productos: {error}
+              </Alert>
+            </Col>
+          )}
+          
+          {products && products.length > 0 ? (
+            products.map((product) => (
+            <Col lg={4} md={6} className="mb-4" key={product._id}>
               <Card className="h-100 border-0 shadow-sm">
                 <Card.Body>
                   <div className="d-flex justify-content-between align-items-start mb-2">
                     <h5 className="card-title mb-1">{product.name}</h5>
                     <Badge 
-                      bg={product.stock > 100 ? 'success' : product.stock > 50 ? 'warning' : 'danger'}
+                      bg={product.countInStock > 100 ? 'success' : product.countInStock > 50 ? 'warning' : 'danger'}
                       className="ms-2"
                     >
-                      Stock: {product.stock}
+                      Stock: {product.countInStock}
                     </Badge>
                   </div>
                   
@@ -309,36 +249,17 @@ Saludos cordiales.`;
                     <i className="fas fa-tag me-1"></i>
                     {product.category}
                   </p>
-                  
-                  <p className="text-muted small mb-2">
-                    <i className="fas fa-industry me-1"></i>
-                    {product.supplier}
-                  </p>
 
                   <p className="text-muted small mb-3" style={{ fontSize: '0.85rem' }}>
                     {product.description}
                   </p>
 
                   <div className="pricing-info">
-                    <div className="d-flex justify-content-between align-items-center mb-2">
-                      <span className="text-muted">Precio Proveedor:</span>
-                      <span className="h5 text-success mb-0">
-                        ${product.priceProvider.toFixed(2)}
-                      </span>
-                    </div>
-                    
                     <div className="d-flex justify-content-between align-items-center mb-3">
-                      <span className="text-muted small">Precio Público:</span>
-                      <span className="text-decoration-line-through text-muted">
-                        ${product.pricePublic.toFixed(2)}
+                      <span className="text-muted">Precio:</span>
+                      <span className="h5 text-success mb-0">
+                        ${product.price.toLocaleString('es-CO')}
                       </span>
-                    </div>
-
-                    <div className="text-center">
-                      <small className="text-success">
-                        <i className="fas fa-percentage me-1"></i>
-                        Ahorro: {(((product.pricePublic - product.priceProvider) / product.pricePublic) * 100).toFixed(0)}%
-                      </small>
                     </div>
                   </div>
 
@@ -346,11 +267,11 @@ Saludos cordiales.`;
                     <Button 
                       variant="outline-primary" 
                       size="sm"
-                      disabled={product.stock === 0}
+                      disabled={product.countInStock === 0}
                       style={{ borderColor: '#6a0d83', color: '#6a0d83' }}
                       onClick={() => handleQuoteRequest(product)}
                     >
-                      {product.stock > 0 ? (
+                      {product.countInStock > 0 ? (
                         <>
                           <i className="fas fa-cart-plus me-1"></i>
                           Solicitar Cotización
@@ -365,7 +286,7 @@ Saludos cordiales.`;
                       <Button 
                         variant="outline-secondary" 
                         size="sm"
-                        onClick={() => navigate(`/panky/productos/${product.id}/editar`)}
+                        onClick={() => navigate(`/panky/productos/${product._id}/editar`)}
                       >
                         <i className="fas fa-edit me-1"></i>
                         Editar Producto
@@ -375,7 +296,17 @@ Saludos cordiales.`;
                 </Card.Body>
               </Card>
             </Col>
-          ))}
+          ))
+          ) : (
+            !loading && (
+              <Col className="text-center">
+                <Alert variant="info">
+                  <h5>No hay productos disponibles</h5>
+                  <p>Aún no hay productos en el catálogo de Panky Hilados.</p>
+                </Alert>
+              </Col>
+            )
+          )}
         </Row>
 
         {/* Modal de Cotización */}
