@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Form, Row, Col, Button, InputGroup } from 'react-bootstrap';
 
 const PankyProductFilters = ({ 
@@ -14,13 +14,8 @@ const PankyProductFilters = ({
     minPrice: '',
     maxPrice: '',
     inStock: false,
-    sortBy: 'newest',
-    ...filters
+    sortBy: 'newest'
   });
-
-  useEffect(() => {
-    setLocalFilters(prev => ({ ...prev, ...filters }));
-  }, [filters]);
 
   const handleFilterChange = (key, value) => {
     const newFilters = { ...localFilters, [key]: value };

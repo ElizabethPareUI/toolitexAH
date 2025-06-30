@@ -153,3 +153,82 @@ exports.deleteProduct = async (req, res) => {
     res.status(500).send('Error del servidor');
   }
 };
+
+// @desc    Obtener productos de Panky con filtros y paginación
+// @route   GET /api/products/panky
+// @access  Private
+exports.getPankyProducts = async (req, res) => {
+  try {
+    console.log('=== getPankyProducts llamado ===');
+    console.log('Headers recibidos:', req.headers);
+    console.log('User from auth middleware:', req.user);
+    console.log('Query params:', req.query);
+    
+    const pageSize = Number(req.query.limit) || 6;
+    const page = Number(req.query.page) || 1;
+
+    // Filtro base: solo productos de la marca 'Panky'
+    const baseFilter = { brand: 'Panky' };
+
+    // Filtros de búsqueda
+    const keyword = req.query.search
+      ? {
+          name: {
+            $regex: req.query.search,
+            $options: 'i',
+          },
+        }
+      : {};
+
+    const category = req.query.category && req.query.category !== 'all'
+      ? { category: req.query.category }
+      : {};
+
+    // Filtros de precio
+    const priceFilter = {};
+    if (req.query.minPrice) priceFilter.$gte = Number(req.query.minPrice);
+    if (req.query.maxPrice) priceFilter.$lte = Number(req.query.maxPrice);
+    const price = Object.keys(priceFilter).length > 0 ? { price: priceFilter } : {};
+
+    // Filtro de stock
+    const inStock = req.query.inStock === 'true' ? { countInStock: { $gt: 0 } } : {};
+
+    // Combinar todos los filtros
+    const filters = { ...baseFilter, ...keyword, ...category, ...price, ...inStock };
+
+    const count = await Product.countDocuments(filters);
+    const products = await Product.find(filters)
+      .limit(pageSize)
+      .skip(pageSize * (page - 1));
+
+    // Obtener datos para los filtros del frontend
+    const allPankyProducts = await Product.find(baseFilter);
+    const categories = [...new Set(allPankyProducts.map(p => p.category))];
+    const prices = allPankyProducts.map(p => p.price);
+    const minPriceAvailable = Math.min(...prices);
+    const maxPriceAvailable = Math.max(...prices);
+
+    res.json({
+      products,
+      pagination: {
+        page,
+        pages: Math.ceil(count / pageSize),
+        total: count,
+      },
+      filters: {
+        appliedFilters: req.query,
+        categories,
+        priceRange: {
+          min: minPriceAvailable,
+          max: maxPriceAvailable,
+        },
+      },
+    });
+    
+    console.log('=== Respuesta enviada exitosamente ===');
+  } catch (error) {
+    console.error(`Error fetching Panky products: ${error.message}`);
+    console.error('Stack trace:', error.stack);
+    res.status(500).send('Error del Servidor');
+  }
+};

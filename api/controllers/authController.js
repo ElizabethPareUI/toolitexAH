@@ -108,15 +108,15 @@ exports.login = async (req, res) => {
     }
 
     // 2. Verificar si el usuario existe
-    const user = await User.findOne({ email });
+    const user = await User.findOne({ email: email.toLowerCase() });
     if (!user) {
-      return res.status(400).json({ message: 'User not found' });
+      return res.status(400).json({ message: 'Usuario no encontrado' });
     }
 
     // 3. Comparar la contraseña
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) {
-      return res.status(400).json({ message: 'Invalid password' });
+      return res.status(400).json({ message: 'Contraseña incorrecta' });
     }
 
     // 4. Crear y firmar el JSON Web Token (igual que en el registro)

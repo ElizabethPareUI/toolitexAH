@@ -1,8 +1,8 @@
 const users = [
   {
-    name: 'Admin User',
-    email: 'admin@ejemplo.com',
-    password: 'password',
+    name: 'Admin Panky',
+    email: 'adminpanky@test.com',
+    password: 'PankyPassword123!',
     isAdmin: true,
   },
   {

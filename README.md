@@ -60,3 +60,26 @@ El proyecto fue creado como parte del parcial de la asignatura **Aplicaciones H�
     *   Iniciar la aplicación React: `npm start`
 
 La aplicación frontend estará disponible en `http://localhost:3000` y se conectará a la API que corre en `http://localhost:5000`.
+
+## Credenciales de Acceso y Proveedores
+
+Para facilitar las pruebas y la demostración de la plataforma, se han preconfigurado los siguientes usuarios y códigos de proveedor:
+
+### Usuarios de Prueba
+
+*   **Administrador de Panky Hilados:**
+    *   **Email:** `adminpanky@test.com`
+    *   **Contraseña:** `PankyPassword123!`
+    *   **Rol:** Este usuario puede gestionar (crear, editar, eliminar) únicamente los productos de la marca "Panky".
+
+*   **Usuario Distribuidor (Ejemplo):**
+    *   **Email:** `juan@ejemplo.com`
+    *   **Contraseña:** `password`
+    *   **Rol:** Puede ver los catálogos de los proveedores y solicitar cotizaciones.
+
+### Códigos de Proveedor
+
+Para acceder a los catálogos exclusivos desde el portal de proveedores, utiliza los siguientes códigos:
+
+*   **Panky Hilados:** `panky`
+*   **Mia Hilados:** `mia`

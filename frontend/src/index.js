@@ -5,7 +5,6 @@ import '@fortawesome/fontawesome-free/css/all.min.css';
 import './index.scss';
 import './utils/axiosConfig'; // Importar configuración de axios
 import App from './App';
-import reportWebVitals from './reportWebVitals';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -13,6 +12,3 @@ root.render(
     <App />
   </React.StrictMode>
 );
-
-
-reportWebVitals();

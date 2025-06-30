@@ -56,7 +56,8 @@ const PankyAdminDashboard = () => {
 
     // Cargar productos de Panky desde la base de datos con filtros iniciales
     dispatch(listPankyProducts(filters));
-  }, [dispatch, navigate, userInfo, filters]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [dispatch, navigate, userInfo]);
 
   if (!userInfo || !userInfo.isAdmin) {
     return (
