@@ -18,6 +18,38 @@ El proyecto fue creado como parte del parcial de la asignatura **Aplicaciones H�
 *   **Gestión de Estado Centralizada:** Se utiliza **Redux** con Redux Thunk para manejar de forma eficiente el estado global de la aplicación, incluyendo la sesión del usuario, los productos y el carrito de cotizaciones.
 *   **Diseño Responsivo:** Interfaz de usuario limpia y adaptable a diferentes tamaños de pantalla, desarrollada con React-Bootstrap y SASS.
 
+## Funcionalidades Principales
+
+### Sistema de Filtros Avanzados
+
+La plataforma incluye un sistema completo de filtros para mejorar la experiencia de navegación tanto para administradores como para distribuidores:
+
+*   **Filtros Disponibles:**
+    *   **Búsqueda por texto:** Buscar productos por nombre o descripción
+    *   **Filtro por categoría:** Lanas, Hilos, Accesorios
+    *   **Filtro por rango de precios:** Precio mínimo y máximo
+    *   **Filtro por stock:** Solo productos disponibles
+    *   **Ordenamiento:** Por fecha, nombre, precio, rating
+
+*   **Ubicación de Filtros:**
+    *   **Dashboard de Admin de Panky:** Gestión completa de productos con filtros
+    *   **Catálogo Público de Panky Hilados:** Filtros para distribuidores con códigos de acceso
+    *   **Indicadores visuales:** Badges que muestran filtros activos y cantidad de productos encontrados
+
+### Gestión de Productos para Admin de Panky
+
+*   **Crear productos:** Formulario completo con subida de imágenes
+*   **Editar productos:** Modificación en tiempo real con persistencia en base de datos
+*   **Eliminar productos:** Solo productos propios de la marca Panky
+*   **Validaciones:** Precios mínimos, stock, categorías válidas
+
+### Portal de Distribuidores
+
+*   **Acceso con códigos:** Sistema seguro de acceso a catálogos exclusivos
+*   **Solicitud de cotizaciones:** Carrito de cotización en lugar de compras directas
+*   **Filtros dinámicos:** Misma funcionalidad de filtros que el dashboard de admin
+*   **Interfaz optimizada:** Diseño específico para distribuidores B2B
+
 ## Stack Tecnológico
 
 *   **Backend (`/api`):**
@@ -81,5 +113,5 @@ Para facilitar las pruebas y la demostración de la plataforma, se han preconfig
 
 Para acceder a los catálogos exclusivos desde el portal de proveedores, utiliza los siguientes códigos:
 
-*   **Panky Hilados:** `panky`
-*   **Mia Hilados:** `mia`
+*   **Panky Hilados:** `456PANKY`
+*   **Mia Hilados:** `123MIA`
