@@ -1,6 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
 import { Container, Row, Col, Card, Button, Badge, Alert, Modal, Form, Toast, ToastContainer } from 'react-bootstrap';
+import { listMiaProducts } from '../actions/productActions';
+import ProductFilters from '../components/ProductFilters';
+import PaginationComponent from '../components/PaginationComponent';
+import Loader from '../components/Loader';
 
 const MiaHiladosScreen = () => {
   const [providerInfo, setProviderInfo] = useState(null);
@@ -10,7 +15,46 @@ const MiaHiladosScreen = () => {
   const [quotedProducts, setQuotedProducts] = useState([]);
   const [showToast, setShowToast] = useState(false);
   const [toastMessage, setToastMessage] = useState('');
+  const [filters, setFilters] = useState({
+    search: '',
+    category: 'all',
+    minPrice: '',
+    maxPrice: '',
+    inStock: false,
+    sortBy: 'newest'
+  });
+  const [currentPage, setCurrentPage] = useState(1);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+  
+  // Obtener productos de Mia desde la API
+  const { loading, error, products, pagination, filters: availableFilters } = useSelector((state) => state.miaProducts);
+
+  // Función para cargar productos con filtros
+  const loadProductsWithFilters = (currentFilters = filters, page = currentPage) => {
+    const filterParams = { ...currentFilters, page, limit: 6 };
+    
+    if (currentFilters.search) filterParams.search = currentFilters.search;
+    if (currentFilters.category !== 'all') filterParams.category = currentFilters.category;
+    if (currentFilters.minPrice) filterParams.minPrice = currentFilters.minPrice;
+    if (currentFilters.maxPrice) filterParams.maxPrice = currentFilters.maxPrice;
+    if (currentFilters.inStock) filterParams.inStock = 'true';
+    
+    dispatch(listMiaProducts(filterParams));
+  };
+
+  // Función para manejar cambios en filtros
+  const handleFilterChange = (newFilters) => {
+    setFilters(newFilters);
+    setCurrentPage(1); // Reset a primera página cuando cambian filtros
+    loadProductsWithFilters(newFilters, 1);
+  };
+
+  // Función para manejar cambio de página
+  const handlePageChange = (page) => {
+    setCurrentPage(page);
+    loadProductsWithFilters(filters, page);
+  };
 
   useEffect(() => {
     // Verificar acceso de proveedor con validaciones adicionales de seguridad
@@ -35,12 +79,15 @@ const MiaHiladosScreen = () => {
       }
       
       setProviderInfo(parsedInfo);
+      
+      // Cargar productos de Mia desde la API
+      dispatch(listMiaProducts());
     } catch (error) {
       // Si hay error al parsear, eliminar el acceso y redirigir
       localStorage.removeItem('providerAccess');
       navigate('/proveedor');
     }
-  }, [navigate]);
+  }, [navigate, dispatch]);
 
   const handleLogout = () => {
     localStorage.removeItem('providerAccess');
@@ -61,7 +108,7 @@ const MiaHiladosScreen = () => {
         id: Date.now(),
         product: selectedProduct,
         quantity: quantity,
-        totalPrice: (selectedProduct.priceProvider * quantity).toFixed(2),
+        totalPrice: (selectedProduct.price * quantity).toFixed(2),
         date: new Date().toISOString()
       };
       
@@ -109,89 +156,7 @@ Saludos cordiales.`;
     window.open(mailtoLink);
   };
 
-  // Productos específicos de Mia Hilados - Especialistas en Lanas y Tejidos
-  const miaHiladosProducts = [
-    {
-      id: 1,
-      name: 'Lana Merino Premium Mia Hilados',
-      category: 'Lanas Premium',
-      stock: 150,
-      priceProvider: 45.99,
-      pricePublic: 65.99,
-      supplier: 'Mia Hilados Collection',
-      description: 'Lana merino 100% natural, ideal para tejidos delicados'
-    },
-    {
-      id: 2,
-      name: 'Hilo de Alpaca Andina Mia',
-      category: 'Fibras Naturales',
-      stock: 89,
-      priceProvider: 78.50,
-      pricePublic: 110.00,
-      supplier: 'Mia Hilados Premium',
-      description: 'Fibra de alpaca baby, suavidad excepcional'
-    },
-    {
-      id: 3,
-      name: 'Cashmere Mia Luxury',
-      category: 'Lanas de Lujo',
-      stock: 25,
-      priceProvider: 125.00,
-      pricePublic: 180.00,
-      supplier: 'Mia Hilados Luxury',
-      description: 'Cashmere importado, la máxima expresión del lujo'
-    },
-    {
-      id: 4,
-      name: 'Bambú Eco Mia Verde',
-      category: 'Ecológico Mia',
-      stock: 200,
-      priceProvider: 32.75,
-      pricePublic: 48.99,
-      supplier: 'Mia Hilados Eco',
-      description: 'Fibra de bambú 100% sostenible, antibacterial'
-    },
-    {
-      id: 5,
-      name: 'Mohair Sedoso Mia Texture',
-      category: 'Texturas Especiales',
-      stock: 67,
-      priceProvider: 89.99,
-      pricePublic: 125.50,
-      supplier: 'Mia Hilados Texture',
-      description: 'Mohair sedoso con brillo natural, ideal para chales'
-    },
-    {
-      id: 6,
-      name: 'Kit Agujas Bambú Mia Pro',
-      category: 'Accesorios Mia',
-      stock: 45,
-      priceProvider: 156.00,
-      pricePublic: 220.00,
-      supplier: 'Mia Hilados Tools',
-      description: 'Set completo agujas circulares y rectas, bambú premium'
-    },
-    {
-      id: 7,
-      name: 'Lana Oveja Patagónica Mia',
-      category: 'Lanas Regionales',
-      stock: 120,
-      priceProvider: 38.50,
-      pricePublic: 55.00,
-      supplier: 'Mia Hilados Regional',
-      description: 'Lana 100% patagónica, textura rústica natural'
-    },
-    {
-      id: 8,
-      name: 'Hilo Algodón Mia Soft',
-      category: 'Algodones Premium',
-      stock: 180,
-      priceProvider: 28.99,
-      pricePublic: 42.50,
-      supplier: 'Mia Hilados Cotton',
-      description: 'Algodón mercerizado, ideal para ropa de bebé'
-    }
-  ];
+
 
   if (!providerInfo) {
     return (
@@ -266,10 +231,28 @@ Saludos cordiales.`;
             <Card className="border-0 shadow-sm" style={{ background: 'linear-gradient(135deg, #8B4513 0%, #D2691E 100%)' }}>
               <Card.Body className="text-center">
                 <h5 className="mb-1" style={{ color: 'white' }}>🧶 Productos de Lanas y Tejidos</h5>
-                <h2 className="mb-0" style={{ color: 'white', fontSize: '2.5rem' }}>{miaHiladosProducts.length}</h2>
+                <h2 className="mb-0" style={{ color: 'white', fontSize: '2.5rem' }}>
+                  {pagination ? pagination.total : (products ? products.length : 0)}
+                </h2>
                 <small style={{ color: 'white', opacity: '0.9' }}>Especializados en tejido</small>
               </Card.Body>
             </Card>
+          </Col>
+        </Row>
+
+        {/* Filtros de productos */}
+        <Row className="mb-4">
+          <Col>
+            <ProductFilters
+              filters={filters}
+              onFilterChange={handleFilterChange}
+              availableCategories={availableFilters?.categories || []}
+              showBrandFilter={false}
+              placeholders={{
+                search: 'Buscar en productos Mia Hilados...',
+                category: 'Todas las categorías Mia'
+              }}
+            />
           </Col>
         </Row>
 
@@ -286,76 +269,114 @@ Saludos cordiales.`;
           </Col>
         </Row>
 
-        <Row>
-          {miaHiladosProducts.map((product) => (
-            <Col lg={4} md={6} className="mb-4" key={product.id}>
-              <Card className="h-100 border-0 shadow-sm">
-                <Card.Body>
-                  <div className="d-flex justify-content-between align-items-start mb-2">
-                    <h5 className="card-title mb-1">{product.name}</h5>
-                    <Badge 
-                      bg={product.stock > 100 ? 'success' : product.stock > 50 ? 'warning' : 'danger'}
-                      className="ms-2"
-                    >
-                      Stock: {product.stock}
-                    </Badge>
-                  </div>
-                  
-                  <p className="text-muted small mb-2">
-                    <i className="fas fa-tag me-1"></i>
-                    {product.category}
-                  </p>
-                  
-                  <p className="text-muted small mb-3">
-                    <i className="fas fa-truck me-1"></i>
-                    Proveedor: {product.supplier}
-                  </p>
+        {loading ? (
+          <Loader />
+        ) : error ? (
+          <Alert variant="danger">{error}</Alert>
+        ) : (
+          <>
+            <Row>
+              {products && products.map((product) => (
+                <Col lg={4} md={6} className="mb-4" key={product._id}>
+                  <Card className="h-100 border-0 shadow-sm product-card">
+                    <Card.Img
+                      variant="top"
+                      src={product.image}
+                      alt={product.name}
+                      style={{ height: '200px', objectFit: 'cover' }}
+                      onError={e => { e.target.src = '/images/placeholder.png'; }}
+                    />
+                    <Card.Body>
+                      <div className="d-flex justify-content-between align-items-start mb-2">
+                        <h5 className="card-title mb-1">{product.name}</h5>
+                        <Badge 
+                          bg={product.countInStock > 100 ? 'success' : product.countInStock > 50 ? 'warning' : 'danger'}
+                          className="ms-2"
+                        >
+                          Stock: {product.countInStock}
+                        </Badge>
+                      </div>
+                      
+                      <p className="text-muted small mb-2">
+                        <i className="fas fa-tag me-1"></i>
+                        {product.category}
+                      </p>
+                      
+                      <p className="text-muted small mb-3">
+                        <i className="fas fa-truck me-1"></i>
+                        Marca: {product.brand}
+                      </p>
 
-                  <div className="pricing-info">
-                    <div className="d-flex justify-content-between align-items-center mb-2">
-                      <span className="text-muted">Precio Proveedor:</span>
-                      <span className="h5 text-success mb-0">
-                        ${product.priceProvider.toFixed(2)}
-                      </span>
-                    </div>
-                    
-                    <div className="d-flex justify-content-between align-items-center mb-3">
-                      <span className="text-muted small">Precio Público:</span>
-                      <span className="text-decoration-line-through text-muted">
-                        ${product.pricePublic.toFixed(2)}
-                      </span>
-                    </div>
-
-                    <div className="text-center">
-                      <small className="text-success">
-                        <i className="fas fa-percentage me-1"></i>
-                        Ahorro: {(((product.pricePublic - product.priceProvider) / product.pricePublic) * 100).toFixed(0)}%
-                      </small>
-                    </div>
-                  </div>
-
-                  <div className="mt-3 d-grid">
-                    <Button 
-                      variant="primary" 
-                      size="sm"
-                      disabled={product.stock === 0}
-                      onClick={() => handleQuoteRequest(product)}
-                    >
-                      {product.stock > 0 ? (
-                        <>
-                          <i className="fas fa-cart-plus me-1"></i>
-                          Solicitar Cotización
-                        </>
-                      ) : (
-                        'Sin Stock'
+                      {product.description && (
+                        <p className="text-muted small mb-3">
+                          {product.description}
+                        </p>
                       )}
-                    </Button>
-                  </div>
-                </Card.Body>
-              </Card>
-            </Col>
-          ))}
-        </Row>
+
+                      <div className="pricing-info">
+                        <div className="d-flex justify-content-between align-items-center mb-2">
+                          <span className="text-muted">Precio Proveedor:</span>
+                          <span className="h5 text-success mb-0">
+                            ${product.price}
+                          </span>
+                        </div>
+                        
+                        {product.publicPrice && (
+                          <>
+                            <div className="d-flex justify-content-between align-items-center mb-3">
+                              <span className="text-muted small">Precio Público:</span>
+                              <span className="text-decoration-line-through text-muted">
+                                ${product.publicPrice}
+                              </span>
+                            </div>
+
+                            <div className="text-center">
+                              <small className="text-success">
+                                <i className="fas fa-percentage me-1"></i>
+                                Ahorro: {(((product.publicPrice - product.price) / product.publicPrice) * 100).toFixed(0)}%
+                              </small>
+                            </div>
+                          </>
+                        )}
+                      </div>
+
+                      <div className="mt-3 d-grid">
+                        <Button 
+                          variant="primary" 
+                          size="sm"
+                          disabled={product.countInStock === 0}
+                          onClick={() => handleQuoteRequest(product)}
+                        >
+                          {product.countInStock > 0 ? (
+                            <>
+                              <i className="fas fa-cart-plus me-1"></i>
+                              Solicitar Cotización
+                            </>
+                          ) : (
+                            'Sin Stock'
+                          )}
+                        </Button>
+                      </div>
+                    </Card.Body>
+                  </Card>
+                </Col>
+              ))}
+            </Row>
+
+            {/* Paginación */}
+            {pagination && pagination.pages > 1 && (
+              <Row className="mt-4">
+                <Col>
+                  <PaginationComponent
+                    currentPage={currentPage}
+                    totalPages={pagination.pages}
+                    onPageChange={handlePageChange}
+                  />
+                </Col>
+              </Row>
+            )}
+          </>
+        )}
 
         {/* Footer */}
         <Row className="mt-5">
@@ -387,8 +408,10 @@ Saludos cordiales.`;
           <Modal.Body>
             <h5>{selectedProduct?.name}</h5>
             <p>
-              <strong>Precio Proveedor:</strong> ${selectedProduct?.priceProvider.toFixed(2)}<br />
-              <strong>Stock Disponible:</strong> {selectedProduct?.stock}
+              <strong>Precio Proveedor:</strong> ${selectedProduct?.price}<br />
+              <strong>Stock Disponible:</strong> {selectedProduct?.countInStock}<br />
+              {selectedProduct?.category && <><strong>Categoría:</strong> {selectedProduct.category}<br /></>}
+              {selectedProduct?.brand && <><strong>Marca:</strong> {selectedProduct.brand}</>}
             </p>
             <Form>
               <Form.Group controlId="formQuantity">
@@ -398,8 +421,12 @@ Saludos cordiales.`;
                   value={quantity} 
                   onChange={(e) => setQuantity(Math.max(1, e.target.value))}
                   min={1}
+                  max={selectedProduct?.countInStock || 999}
                 />
               </Form.Group>
+              <div className="mt-2">
+                <strong>Total estimado: ${(selectedProduct?.price * quantity).toFixed(2)}</strong>
+              </div>
             </Form>
           </Modal.Body>
           <Modal.Footer>

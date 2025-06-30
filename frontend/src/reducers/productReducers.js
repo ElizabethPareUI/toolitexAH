@@ -19,6 +19,9 @@ import {
   PANKY_PRODUCT_CREATE_SUCCESS,
   PANKY_PRODUCT_CREATE_FAIL,
   PANKY_PRODUCT_CREATE_RESET,
+  MIA_PRODUCTS_REQUEST,
+  MIA_PRODUCTS_SUCCESS,
+  MIA_PRODUCTS_FAIL,
 } from '../constants/productConstants';
 
 export const productListReducer = (state = { products: [], loading: false }, action) => {
@@ -117,6 +120,30 @@ export const pankyProductCreateReducer = (state = {}, action) => {
       return { loading: false, error: action.payload };
     case PANKY_PRODUCT_CREATE_RESET:
       return {};
+    default:
+      return state;
+  }
+};
+
+export const miaProductsReducer = (state = { products: [], loading: false }, action) => {
+  switch (action.type) {
+    case MIA_PRODUCTS_REQUEST:
+      return { ...state, loading: true };
+    case MIA_PRODUCTS_SUCCESS:
+      return { 
+        loading: false, 
+        products: action.payload.products || [],
+        pagination: action.payload.pagination || {},
+        filters: action.payload.filters || {},
+        error: null
+      };
+    case MIA_PRODUCTS_FAIL:
+      return { 
+        ...state, 
+        loading: false, 
+        error: action.payload, 
+        products: []
+      };
     default:
       return state;
   }

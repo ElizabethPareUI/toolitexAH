@@ -102,7 +102,7 @@ const PankyHiladosScreen = () => {
         id: Date.now(),
         product: selectedProduct,
         quantity: quantity,
-        totalPrice: (selectedProduct.priceProvider * quantity).toFixed(2),
+        totalPrice: (selectedProduct.price * quantity).toFixed(2),
         date: new Date().toISOString()
       };
       
@@ -309,7 +309,14 @@ Saludos cordiales.`;
           {products && products.length > 0 ? (
             products.map((product) => (
             <Col lg={4} md={6} className="mb-4" key={product._id}>
-              <Card className="h-100 border-0 shadow-sm">
+              <Card className="h-100 border-0 shadow-sm product-card">
+                <Card.Img
+                  variant="top"
+                  src={product.image}
+                  alt={product.name}
+                  style={{ height: '200px', objectFit: 'cover' }}
+                  onError={e => { e.target.src = '/images/placeholder.png'; }}
+                />
                 <Card.Body>
                   <div className="d-flex justify-content-between align-items-start mb-2">
                     <h5 className="card-title mb-1">{product.name}</h5>
@@ -393,7 +400,7 @@ Saludos cordiales.`;
           <Modal.Body>
             <h5>{selectedProduct?.name}</h5>
             <p>
-              <strong>Precio Proveedor:</strong> ${selectedProduct?.priceProvider.toFixed(2)}
+              <strong>Precio Proveedor:</strong> ${selectedProduct?.price?.toFixed(2)}
             </p>
             <Form>
               <Form.Group controlId="formQuantity">
@@ -463,7 +470,7 @@ Saludos cordiales.`;
           <Modal.Body>
             <h5>{selectedProduct?.name}</h5>
             <p>
-              <strong>Precio Proveedor:</strong> ${selectedProduct?.priceProvider.toFixed(2)}<br />
+              <strong>Precio Proveedor:</strong> ${selectedProduct?.price?.toFixed(2)}<br />
               <strong>Stock Disponible:</strong> {selectedProduct?.stock}<br />
               <strong>Descripción:</strong> {selectedProduct?.description}
             </p>
@@ -479,7 +486,7 @@ Saludos cordiales.`;
                 />
               </Form.Group>
               <p className="mt-2">
-                <strong>Total estimado:</strong> ${selectedProduct ? (selectedProduct.priceProvider * quantity).toFixed(2) : '0.00'}
+                <strong>Total estimado:</strong> ${selectedProduct ? (selectedProduct.price * quantity).toFixed(2) : '0.00'}
               </p>
             </Form>
           </Modal.Body>

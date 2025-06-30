@@ -287,3 +287,74 @@ exports.createPankyProduct = async (req, res) => {
     res.status(500).json({ message: 'Error del servidor', error: error.message });
   }
 };
+
+// @desc    Obtener productos de Mia con filtros y paginación
+// @route   GET /api/products/mia
+// @access  Public (para distribuidores con código)
+exports.getMiaProducts = async (req, res) => {
+  try {
+    const pageSize = Number(req.query.limit) || 6;
+    const page = Number(req.query.page) || 1;
+
+    // Filtro base: solo productos de la marca 'Mia'
+    const baseFilter = { brand: 'Mia' };
+
+    // Filtros de búsqueda
+    const keyword = req.query.search
+      ? {
+          name: {
+            $regex: req.query.search,
+            $options: 'i',
+          },
+        }
+      : {};
+
+    const category = req.query.category && req.query.category !== 'all'
+      ? { category: req.query.category }
+      : {};
+
+    // Filtros de precio
+    const priceFilter = {};
+    if (req.query.minPrice) priceFilter.$gte = Number(req.query.minPrice);
+    if (req.query.maxPrice) priceFilter.$lte = Number(req.query.maxPrice);
+    const price = Object.keys(priceFilter).length > 0 ? { price: priceFilter } : {};
+
+    // Filtro de stock
+    const inStock = req.query.inStock === 'true' ? { countInStock: { $gt: 0 } } : {};
+
+    // Combinar todos los filtros
+    const filters = { ...baseFilter, ...keyword, ...category, ...price, ...inStock };
+
+    const count = await Product.countDocuments(filters);
+    const products = await Product.find(filters)
+      .limit(pageSize)
+      .skip(pageSize * (page - 1));
+
+    // Obtener datos para los filtros del frontend
+    const allMiaProducts = await Product.find(baseFilter);
+    const categories = [...new Set(allMiaProducts.map(p => p.category))];
+    const prices = allMiaProducts.map(p => p.price);
+    const minPriceAvailable = prices.length > 0 ? Math.min(...prices) : 0;
+    const maxPriceAvailable = prices.length > 0 ? Math.max(...prices) : 1000;
+
+    res.json({
+      products,
+      pagination: {
+        page,
+        pages: Math.ceil(count / pageSize),
+        total: count,
+      },
+      filters: {
+        appliedFilters: req.query,
+        categories,
+        priceRange: {
+          min: minPriceAvailable,
+          max: maxPriceAvailable,
+        },
+      },
+    });
+  } catch (error) {
+    console.error(error.message);
+    res.status(500).send('Error del servidor');
+  }
+};

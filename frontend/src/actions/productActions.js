@@ -15,6 +15,9 @@ import {
   PANKY_PRODUCT_CREATE_REQUEST,
   PANKY_PRODUCT_CREATE_SUCCESS,
   PANKY_PRODUCT_CREATE_FAIL,
+  MIA_PRODUCTS_REQUEST,
+  MIA_PRODUCTS_SUCCESS,
+  MIA_PRODUCTS_FAIL,
 } from '../constants/productConstants';
 
 export const listProducts = (keyword = '', pageNumber = '', category = '', minPrice = '', maxPrice = '') => async (dispatch) => {
@@ -183,6 +186,40 @@ export const createPankyProduct = (productData) => async (dispatch, getState) =>
   } catch (error) {
     dispatch({
       type: PANKY_PRODUCT_CREATE_FAIL,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message,
+    });
+  }
+};
+
+// Acción para obtener productos de Mia Hilados
+export const listMiaProducts = (filters = {}) => async (dispatch, getState) => {
+  try {
+    dispatch({ type: MIA_PRODUCTS_REQUEST });
+
+    // Construir query string con filtros
+    const queryParams = new URLSearchParams();
+    
+    Object.keys(filters).forEach(key => {
+      if (filters[key] !== '' && filters[key] !== null && filters[key] !== undefined) {
+        queryParams.append(key, filters[key]);
+      }
+    });
+
+    const queryString = queryParams.toString();
+    const url = `/api/products/mia${queryString ? `?${queryString}` : ''}`;
+
+    const { data } = await axios.get(url);
+
+    dispatch({
+      type: MIA_PRODUCTS_SUCCESS,
+      payload: data,
+    });
+  } catch (error) {
+    dispatch({
+      type: MIA_PRODUCTS_FAIL,
       payload:
         error.response && error.response.data.message
           ? error.response.data.message
