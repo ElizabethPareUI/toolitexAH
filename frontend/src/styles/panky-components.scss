@@ -1,0 +1,178 @@
+/* Estilos para componentes de filtros y paginación de Panky */
+
+/* Filtros de productos */
+.panky-product-filters {
+  transition: all 0.3s ease;
+}
+
+.panky-product-filters:hover {
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.panky-product-filters .form-label {
+  font-weight: 600;
+  color: #6a0d83;
+  margin-bottom: 0.5rem;
+}
+
+.panky-product-filters .form-control:focus,
+.panky-product-filters .form-select:focus {
+  border-color: #6a0d83;
+  box-shadow: 0 0 0 0.2rem rgba(106, 13, 131, 0.25);
+}
+
+.panky-product-filters .input-group-text {
+  background-color: #6a0d83;
+  color: white;
+  border-color: #6a0d83;
+}
+
+/* Paginación */
+.panky-pagination .pagination-info {
+  display: flex;
+  align-items: center;
+  height: 38px;
+}
+
+.panky-pagination .page-link {
+  color: #6a0d83;
+  border-color: #dee2e6;
+}
+
+.panky-pagination .page-link:hover {
+  color: #ffffff;
+  background-color: #6a0d83;
+  border-color: #6a0d83;
+}
+
+.panky-pagination .page-item.active .page-link {
+  background-color: #6a0d83;
+  border-color: #6a0d83;
+}
+
+.panky-pagination .page-item.disabled .page-link {
+  color: #6c757d;
+  background-color: #fff;
+  border-color: #dee2e6;
+}
+
+/* Cards de productos mejoradas */
+.product-card {
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  border: none;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.product-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+}
+
+.product-card .card-img-top {
+  height: 200px;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.product-card:hover .card-img-top {
+  transform: scale(1.05);
+}
+
+.product-card .badge {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  z-index: 1;
+}
+
+.product-card .card-title {
+  color: #6a0d83;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}
+
+.product-card .text-muted {
+  font-size: 0.875rem;
+}
+
+.product-card .btn-primary {
+  background-color: #6a0d83;
+  border-color: #6a0d83;
+}
+
+.product-card .btn-primary:hover {
+  background-color: #5a0b70;
+  border-color: #5a0b70;
+}
+
+/* Estadísticas del dashboard */
+.stats-card {
+  border-left: 4px solid #6a0d83;
+  transition: transform 0.2s ease;
+}
+
+.stats-card:hover {
+  transform: translateY(-2px);
+}
+
+/* Loading states */
+.spinner-border-sm {
+  width: 1rem;
+  height: 1rem;
+}
+
+/* Responsive improvements */
+@media (max-width: 768px) {
+  .panky-product-filters .row {
+    margin: 0;
+  }
+  
+  .panky-product-filters .col-md-6,
+  .panky-product-filters .col-md-3 {
+    margin-bottom: 1rem;
+  }
+  
+  .panky-pagination .pagination {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  
+  .pagination-info {
+    text-align: center;
+    margin-bottom: 1rem;
+  }
+}
+
+/* Animaciones suaves */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.product-card {
+  animation: fadeIn 0.3s ease;
+}
+
+/* Estados de filtros activos */
+.filter-active {
+  background-color: #e8f5e8 !important;
+  border-color: #28a745 !important;
+}
+
+.clear-filters-btn {
+  background-color: #6c757d;
+  border-color: #6c757d;
+  color: white;
+}
+
+.clear-filters-btn:hover {
+  background-color: #5a6268;
+  border-color: #545b62;
+}
