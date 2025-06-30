@@ -118,11 +118,23 @@ export const deleteProduct = (id) => async (dispatch, getState) => {
 };
 
 // Acción para que el admin de Panky obtenga sus productos
-export const listPankyProducts = () => async (dispatch, getState) => {
+export const listPankyProducts = (filters = {}) => async (dispatch, getState) => {
   try {
     dispatch({ type: PANKY_PRODUCTS_REQUEST });
 
-    const { data } = await axios.get('/api/products/panky');
+    // Construir query string con filtros
+    const queryParams = new URLSearchParams();
+    
+    Object.keys(filters).forEach(key => {
+      if (filters[key] !== '' && filters[key] !== null && filters[key] !== undefined) {
+        queryParams.append(key, filters[key]);
+      }
+    });
+
+    const queryString = queryParams.toString();
+    const url = `/api/products/panky${queryString ? `?${queryString}` : ''}`;
+
+    const { data } = await axios.get(url);
 
     dispatch({
       type: PANKY_PRODUCTS_SUCCESS,

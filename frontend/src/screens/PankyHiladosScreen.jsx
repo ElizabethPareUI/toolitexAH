@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { Container, Row, Col, Card, Button, Badge, Alert, Modal, Form, Toast, ToastContainer } from 'react-bootstrap';
 import { listPankyProducts } from '../actions/productActions';
+import PankyProductFilters from '../components/PankyProductFilters';
 import Loader from '../components/Loader';
 
 const PankyHiladosScreen = () => {
@@ -13,6 +14,14 @@ const PankyHiladosScreen = () => {
   const [quotedProducts, setQuotedProducts] = useState([]);
   const [showToast, setShowToast] = useState(false);
   const [toastMessage, setToastMessage] = useState('');
+  const [filters, setFilters] = useState({
+    search: '',
+    category: 'all',
+    minPrice: '',
+    maxPrice: '',
+    inStock: false,
+    sortBy: 'newest'
+  });
   const navigate = useNavigate();
   const dispatch = useDispatch();
   
@@ -20,7 +29,26 @@ const PankyHiladosScreen = () => {
   const { userInfo } = useSelector((state) => state.userLogin);
   
   // Obtener productos de Panky desde la API
-  const { loading, error, products } = useSelector((state) => state.pankyProducts);
+  const { loading, error, products, pagination, filters: availableFilters } = useSelector((state) => state.pankyProducts);
+
+  // Función para cargar productos con filtros
+  const loadProductsWithFilters = (currentFilters = filters) => {
+    const filterParams = {};
+    
+    if (currentFilters.search) filterParams.search = currentFilters.search;
+    if (currentFilters.category !== 'all') filterParams.category = currentFilters.category;
+    if (currentFilters.minPrice) filterParams.minPrice = currentFilters.minPrice;
+    if (currentFilters.maxPrice) filterParams.maxPrice = currentFilters.maxPrice;
+    if (currentFilters.inStock) filterParams.inStock = 'true';
+    
+    dispatch(listPankyProducts(filterParams));
+  };
+
+  // Función para manejar cambios en filtros
+  const handleFilterChange = (newFilters) => {
+    setFilters(newFilters);
+    loadProductsWithFilters(newFilters);
+  };
 
   useEffect(() => {
     // Verificar acceso de proveedor con validaciones adicionales de seguridad
@@ -202,16 +230,64 @@ Saludos cordiales.`;
           </Col>
         </Row>
 
+        {/* Filtros de productos */}
+        <Row className="mb-4">
+          <Col>
+            <PankyProductFilters
+              onFilterChange={handleFilterChange}
+              filters={filters}
+              categories={availableFilters?.categories || []}
+              priceRange={availableFilters?.priceRange || { min: 0, max: 1000 }}
+              loading={loading}
+            />
+          </Col>
+        </Row>
+
         {/* Catálogo de productos para proveedores */}
         <Row>
           <Col>
-            <h3 className="mb-4">
-              <i className="fas fa-paint-brush me-2" style={{ color: '#6a0d83' }}></i>
-              🎨 Catálogo Panky Hilados - Hilados Premium y Texturas Especiales
-            </h3>
-            <p className="text-muted mb-4">
-              Productos premium especializados en hilados de alta calidad, sedas naturales y texturas únicas. Precios exclusivos para proveedores autorizados.
-            </p>
+            <div className="d-flex justify-content-between align-items-center mb-4">
+              <div>
+                <h3 className="mb-1">
+                  <i className="fas fa-paint-brush me-2" style={{ color: '#6a0d83' }}></i>
+                  🎨 Catálogo Panky Hilados - Hilados Premium y Texturas Especiales
+                </h3>
+                <p className="text-muted mb-0">
+                  Productos premium especializados en hilados de alta calidad, sedas naturales y texturas únicas. 
+                  {pagination && pagination.total && (
+                    <span className="ms-2">
+                      <Badge bg="secondary">{pagination.total} productos encontrados</Badge>
+                    </span>
+                  )}
+                </p>
+              </div>
+              
+              {/* Filtros activos */}
+              {(filters.category !== 'all' || filters.search || filters.minPrice || filters.maxPrice || filters.inStock) && (
+                <div className="d-flex flex-wrap gap-1">
+                  {filters.category !== 'all' && (
+                    <Badge bg="primary" className="me-1">
+                      Categoría: {filters.category}
+                    </Badge>
+                  )}
+                  {filters.search && (
+                    <Badge bg="info" className="me-1">
+                      Búsqueda: {filters.search}
+                    </Badge>
+                  )}
+                  {filters.inStock && (
+                    <Badge bg="success" className="me-1">
+                      En stock
+                    </Badge>
+                  )}
+                  {(filters.minPrice || filters.maxPrice) && (
+                    <Badge bg="warning" className="me-1">
+                      Precio: ${filters.minPrice || 0} - ${filters.maxPrice || '∞'}
+                    </Badge>
+                  )}
+                </div>
+              )}
+            </div>
           </Col>
         </Row>
 
