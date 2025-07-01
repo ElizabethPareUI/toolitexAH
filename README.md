@@ -6,6 +6,29 @@ Este es un proyecto full-stack desarrollado con el **stack MERN (MongoDB, Expres
 
 El proyecto fue creado como parte del parcial de la asignatura **Aplicaciones Híbridas**, con el objetivo de demostrar la construcción de una aplicación web moderna, segura y escalable desde cero.
 
+## Estructura Unificada del Proyecto
+
+**¡IMPORTANTE: El proyecto ha sido reorganizado para una mejor estructura!**
+
+```
+proyecto/
+├── backend/                 # API y servidor backend (anteriormente 'api/')
+│   ├── controllers/        # Controladores de rutas
+│   ├── data/              # Datos de prueba y seeds
+│   ├── middlewares/       # Middlewares personalizados
+│   ├── models/            # Modelos de MongoDB/Mongoose
+│   ├── routes/            # Definición de rutas
+│   ├── uploads/           # Archivos subidos
+│   ├── seeder.js          # Script para poblar la BD
+│   ├── server.js          # Entrada principal del servidor
+│   └── package.json       # Dependencias del backend
+├── frontend/              # Aplicación React
+│   ├── public/           # Archivos públicos
+│   ├── src/              # Código fuente
+│   └── package.json      # Dependencias del frontend
+└── package.json          # Scripts principales del proyecto
+```
+
 ## Características Principales
 
 *   **Arquitectura Desacoplada:** El backend es una **API RESTful** autónoma construida con Node.js y Express, mientras que el frontend es una **Single Page Application (SPA)** dinámica creada con React.
@@ -52,7 +75,7 @@ La plataforma incluye un sistema completo de filtros para mejorar la experiencia
 
 ## Stack Tecnológico
 
-*   **Backend (`/api`):**
+*   **Backend (`/backend`):**
     *   **Framework:** Node.js, Express
     *   **Base de Datos:** MongoDB (con Mongoose como ODM)
     *   **Autenticación:** JSON Web Tokens (`jsonwebtoken`), `bcryptjs` para el hasheo de contraseñas.
@@ -65,7 +88,9 @@ La plataforma incluye un sistema completo de filtros para mejorar la experiencia
     *   **Peticiones HTTP:** Axios
     *   **UI/Estilos:** React-Bootstrap, SASS (`node-sass`)
 
-## Cómo Ejecutar el Proyecto
+## Instalación y Ejecución
+
+### Instalación Rápida (Recomendada)
 
 1.  **Clonar el repositorio:**
     ```bash
@@ -73,8 +98,47 @@ La plataforma incluye un sistema completo de filtros para mejorar la experiencia
     cd toolitexAH
     ```
 
+2.  **Instalar todas las dependencias:**
+    ```bash
+    npm run install-deps
+    ```
+
+3.  **Configurar variables de entorno:**
+    - Crear archivo `.env` en `/backend/` con:
+    ```
+    MONGO_URI=tu_uri_de_mongodb
+    JWT_SECRET=tu_jwt_secret
+    NODE_ENV=development
+    ```
+
+4.  **Poblar la base de datos:**
+    ```bash
+    cd backend
+    npm run data:import
+    ```
+
+5.  **Ejecutar todo el proyecto:**
+    ```bash
+    npm run dev
+    ```
+    Esto iniciará tanto el backend (puerto 5000) como el frontend (puerto 3000) simultáneamente.
+
+### Scripts Disponibles
+
+#### En el directorio raíz:
+- `npm run dev` - Ejecuta backend y frontend simultáneamente
+- `npm run server` - Solo el backend
+- `npm run client` - Solo el frontend
+- `npm run install-deps` - Instala dependencias en todos los directorios
+
+#### En el directorio backend:
+- `npm run data:import` - Poblar base de datos con datos de prueba
+- `npm run data:destroy` - Limpiar base de datos
+
+### Configuración Manual (Alternativa)
+
 2.  **Configurar Backend:**
-    *   Navegar a la carpeta `api`: `cd api`
+    *   Navegar a la carpeta `backend`: `cd backend`
     *   Instalar dependencias: `npm install`
     *   Crear un archivo `.env` en la raíz de `/api` y añadir las siguientes variables:
         ```
