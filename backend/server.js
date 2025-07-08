@@ -12,7 +12,8 @@ const app = express();
 const corsOptions = {
   origin: [
     'http://localhost:3000',
-    'https://tu-frontend-url.vercel.app', // Cambiar por tu URL de Vercel
+    'https://tu-frontend-url.vercel.app', // Cambiar por tu URL de Vercel real
+    process.env.FRONTEND_URL || 'http://localhost:3000',
     'https://tu-dominio.com' // Si tienes un dominio personalizado
   ],
   credentials: true,

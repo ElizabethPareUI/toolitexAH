@@ -1,4 +1,4 @@
-# 🧶 Plataforma B2B de Catálogos y Cotizaciones Textiles
+# 🧶 ToolitexAH - Plataforma B2B Textil
 
 [![Live Demo](https://img.shields.io/badge/Live-Demo-brightgreen)](https://tu-proyecto.vercel.app)
 [![Backend API](https://img.shields.io/badge/API-Backend-blue)](https://tu-backend.railway.app)
@@ -15,19 +15,49 @@
 
 ---
 
-## Descripción del Proyecto
+## 📋 Descripción del Proyecto
 
-Este es un proyecto full-stack desarrollado con el **stack MERN (MongoDB, Express, React, Node.js)** que simula una plataforma B2B (Business-to-Business) para la industria textil. La aplicación está diseñada para que empresas proveedoras de hilados y otros productos textiles puedan exhibir sus catálogos, y para que empresas distribuidoras puedan explorarlos y solicitar cotizaciones personalizadas de forma eficiente.
+Plataforma B2B full-stack desarrollada con el **stack MERN (MongoDB, Express, React, Node.js)** para la industria textil. Permite a empresas proveedoras de hilados y productos textiles exhibir sus catálogos, y a empresas distribuidoras explorar productos y solicitar cotizaciones personalizadas.
 
-El proyecto fue creado como parte del parcial de la asignatura **Aplicaciones Híbridas**, con el objetivo de demostrar la construcción de una aplicación web moderna, segura y escalable desde cero.
+**🎯 Preparado para Portfolio**: Este proyecto está completamente configurado para deployment en servidores gratuitos y listo para mostrar en tu portfolio profesional.
+
+### 🌟 Características Destacadas
+
+- 🔐 **Sistema de autenticación JWT completo**
+- 🛒 **Sistema de cotizaciones B2B**
+- 👥 **Portal especializado para proveedores**
+- 📊 **Panel de administración avanzado**
+- 🔍 **Sistema de filtros por categoría, precio y disponibilidad**
+- 📱 **Diseño responsive para todos los dispositivos**
+- 🎨 **Interfaz moderna con React + Bootstrap**
+- 🌐 **API RESTful bien documentada**
+
+## 🛠️ Tecnologías Utilizadas
+
+### Frontend
+- ⚛️ React 18 + Redux
+- 🎨 React-Bootstrap + Sass
+- 📡 Axios para peticiones HTTP
+- 🔄 React Router para navegación
+
+### Backend
+- 🚀 Node.js + Express.js
+- 🗄️ MongoDB + Mongoose
+- 🔐 JWT + bcryptjs
+- 📁 Multer para upload de archivos
+
+### Deployment
+- **Frontend**: Vercel (gratuito)
+- **Backend**: Railway (gratuito)
+- **Database**: MongoDB Atlas (gratuito)
 
 ## Estructura Unificada del Proyecto
 
 **¡IMPORTANTE: El proyecto ha sido reorganizado para una mejor estructura!**
 
 ```
-proyecto/
-├── backend/                 # API y servidor backend (anteriormente 'api/')
+toolitexAH/
+├── backend/                 # API y servidor backend
 │   ├── controllers/        # Controladores de rutas
 │   ├── data/              # Datos de prueba y seeds
 │   ├── middlewares/       # Middlewares personalizados
@@ -36,13 +66,33 @@ proyecto/
 │   ├── uploads/           # Archivos subidos
 │   ├── seeder.js          # Script para poblar la BD
 │   ├── server.js          # Entrada principal del servidor
+│   ├── railway.json       # Configuración Railway
 │   └── package.json       # Dependencias del backend
 ├── frontend/              # Aplicación React
 │   ├── public/           # Archivos públicos
 │   ├── src/              # Código fuente
+│   ├── vercel.json       # Configuración Vercel
 │   └── package.json      # Dependencias del frontend
+├── DEPLOYMENT.md         # Guía completa de deployment
 └── package.json          # Scripts principales del proyecto
 ```
+
+## 🚀 Deployment y Portfolio
+
+### ✅ Configuración Completa para Deployment
+Este proyecto incluye:
+- Configuración para **Vercel** (frontend)
+- Configuración para **Railway** (backend)
+- Variables de entorno configuradas
+- Documentación completa en `DEPLOYMENT.md`
+
+### 📄 Guía de Deployment
+Sigue la guía completa en [DEPLOYMENT.md](./DEPLOYMENT.md) para:
+1. Configurar MongoDB Atlas
+2. Desplegar en Railway (backend)
+3. Desplegar en Vercel (frontend)
+4. Configurar variables de entorno
+5. Verificar el funcionamiento
 
 ## Características Principales
 
