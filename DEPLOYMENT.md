@@ -29,11 +29,20 @@ git push -u origin main
 2. Regístrate con GitHub
 3. Crea un nuevo proyecto
 4. Conecta tu repositorio de GitHub
-5. Selecciona la carpeta `backend` como Root Directory
+5. **CRÍTICO**: Configura **Root Directory** como `backend`
 6. Configura las variables de entorno:
    - `MONGO_URI`: mongodb+srv://usuario:password@cluster.mongodb.net/toolitexah?retryWrites=true&w=majority
    - `JWT_SECRET`: eliyestefi
    - `PORT`: 3001
+7. **Verificar Build Settings**:
+   - Build Command: `npm ci --only=production`
+   - Start Command: `node server.js`
+8. Railway debería detectar automáticamente el `package.json` del backend
+
+**⚠️ Solución de Problemas Railway:**
+- Si falla el build, asegúrate de que Root Directory esté configurado como `backend`
+- Verifica que las variables de entorno estén configuradas
+- Si persiste el error, reinicia el deployment desde Railway
 
 ### 4. **Deployment del Frontend (Vercel)**
 

@@ -1,0 +1,15 @@
+node_modules
+*.log
+.env
+.DS_Store
+*.orig
+.git
+.gitignore
+README.md
+documentation
+tests
+__tests__
+.nyc_output
+coverage
+.tmp
+tmp

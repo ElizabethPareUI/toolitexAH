@@ -18,7 +18,7 @@ git init
 git add .
 git commit -m "Proyecto ToolitexAH listo para deployment"
 git branch -M main
-git remote add origin https://github.com/TU-USUARIO/toolitexah.git
+git remote add origin https://github.com/ElizabethPare/toolitexAH.git
 git push -u origin main
 ```
 
@@ -31,11 +31,15 @@ git push -u origin main
 ### 3. **Railway - Backend** (5 minutos)
 1. Ir a https://railway.app
 2. Conectar GitHub → Crear proyecto
-3. Root Directory: `backend`
-4. Variables de entorno:
+3. Seleccionar repositorio `ElizabethPare/toolitexAH`
+4. **IMPORTANTE**: Configurar **Root Directory**: `backend`
+5. Variables de entorno:
    - `MONGO_URI`: tu-string-mongodb
    - `JWT_SECRET`: eliyestefi
    - `PORT`: 3001
+6. Railway detectará automáticamente el `package.json` del backend
+7. El build debería usar: `npm ci --only=production`
+8. El start debería usar: `node server.js`
 
 ### 4. **Vercel - Frontend** (5 minutos)
 1. Ir a https://vercel.com
@@ -53,14 +57,14 @@ git push -u origin main
 ### URLs para tu Portfolio:
 - **Aplicación**: https://tu-proyecto.vercel.app
 - **API**: https://tu-backend.railway.app
-- **Código**: https://github.com/tu-usuario/toolitexah
+- **Código**: https://github.com/ElizabethPare/toolitexAH
 
 ### Para tu CV/Portfolio:
 ```
 🧵 ToolitexAH - Plataforma B2B Textil
 Stack: React, Node.js, Express, MongoDB
 Deployment: Vercel + Railway
-GitHub: github.com/tu-usuario/toolitexah
+GitHub: github.com/ElizabethPare/toolitexAH
 Demo: tu-proyecto.vercel.app
 ```
 
