@@ -1,0 +1,275 @@
+@import './variables';
+
+// Estilos globales
+body {
+  font-family: $font-primary;
+  color: $dark-color;
+  font-weight: $font-weight-normal;
+}
+
+// Títulos con fuente secundaria
+h1, h2, h3, h4, h5, h6 {
+  font-family: $font-secondary;
+  font-weight: $font-weight-semibold;
+  line-height: 1.3;
+  color: $dark-color;
+}
+
+h1 {
+  font-size: $font-size-4xl;
+  font-weight: $font-weight-bold;
+}
+
+h2 {
+  font-size: $font-size-3xl;
+}
+
+h3 {
+  font-size: $font-size-2xl;
+}
+
+h4 {
+  font-size: $font-size-xl;
+}
+
+h5 {
+  font-size: $font-size-lg;
+}
+
+h6 {
+  font-size: $font-size-base;
+}
+
+// Enlaces
+a {
+  color: $primary-color;
+  text-decoration: none;
+  font-weight: $font-weight-medium;
+  transition: all 0.3s ease;
+
+  &:hover {
+    color: darken($primary-color, 15%);
+    text-decoration: none;
+  }
+}
+
+// Botones
+.btn {
+  font-family: $font-primary;
+  font-weight: $font-weight-medium;
+  border-radius: 6px;
+  transition: all 0.3s ease;
+}
+
+.btn-primary {
+  background-color: $primary-color !important;
+  border-color: $primary-color !important;
+
+  &:hover {
+    background-color: darken($primary-color, 10%) !important;
+    border-color: darken($primary-color, 10%) !important;
+    transform: translateY(-1px);
+  }
+}
+
+// Navbar
+.navbar-brand {
+  font-family: $font-secondary;
+  font-weight: $font-weight-bold;
+  font-size: $font-size-xl;
+}
+
+.nav-link {
+  font-family: $font-primary;
+  font-weight: $font-weight-medium;
+}
+
+// Cards de producto
+.card {
+  font-family: $font-primary;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+  }
+}
+
+.card-title {
+  font-family: $font-secondary;
+  font-weight: $font-weight-semibold;
+  color: $dark-color;
+}
+
+.card-text {
+  font-weight: $font-weight-normal;
+  color: $secondary-color;
+}
+
+.App {
+  text-align: center;
+}
+
+.App-logo {
+  height: 40vmin;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
+  }
+}
+
+.App-header {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.App-link {
+  color: #61dafb;
+}
+
+.nav-link {
+  color: $primary-color !important; 
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+// Formularios
+.form-control {
+  font-family: $font-primary;
+  font-weight: $font-weight-normal;
+  border-radius: 6px;
+  border: 1px solid #dee2e6;
+  transition: all 0.3s ease;
+
+  &:focus {
+    border-color: $primary-color;
+    box-shadow: 0 0 0 0.2rem rgba(255, 42, 96, 0.25);
+  }
+}
+
+.form-label {
+  font-family: $font-primary;
+  font-weight: $font-weight-medium;
+  color: $dark-color;
+}
+
+// Tablas
+.table {
+  font-family: $font-primary;
+  
+  th {
+    font-weight: $font-weight-semibold;
+    color: $dark-color;
+  }
+  
+  td {
+    font-weight: $font-weight-normal;
+  }
+}
+
+// Breadcrumbs
+.breadcrumb {
+  font-family: $font-primary;
+  font-weight: $font-weight-normal;
+  font-size: $font-size-sm;
+}
+
+// Badges
+.badge {
+  font-family: $font-primary;
+  font-weight: $font-weight-medium;
+}
+
+// Rating stars
+.rating {
+  font-family: $font-primary;
+  font-weight: $font-weight-medium;
+}
+
+// Price display
+.price {
+  font-family: $font-secondary;
+  font-weight: $font-weight-bold;
+  color: $primary-color;
+}
+
+// Footer
+footer {
+  font-family: $font-primary;
+  font-weight: $font-weight-normal;
+  
+  h5 {
+    font-family: $font-secondary;
+    font-weight: $font-weight-semibold;
+  }
+}
+
+// Loading spinner text
+.loading-text {
+  font-family: $font-primary;
+  font-weight: $font-weight-medium;
+}
+
+// Error messages
+.alert {
+  font-family: $font-primary;
+  font-weight: $font-weight-normal;
+  border-radius: 6px;
+}
+
+// Product description
+.product-description {
+  font-family: $font-primary;
+  font-weight: $font-weight-normal;
+  line-height: 1.7;
+  color: $secondary-color;
+}
+
+// Animation classes
+.fade-in {
+  animation: fadeIn 0.5s ease-in;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+// Avatar de usuario en el header
+.user-avatar {
+  width: 32px;
+  height: 32px;
+  background-color: #6c757d; // Color gris
+  color: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  font-size: 14px;
+  text-transform: uppercase;
+}

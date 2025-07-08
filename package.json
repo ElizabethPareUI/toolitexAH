@@ -1,0 +1,33 @@
+{
+  "name": "proyecto-hilados",
+  "version": "1.0.0",
+  "description": "E-commerce de hilados con frontend React y backend Node.js",
+  "scripts": {
+    "dev": "concurrently \"npm run server\" \"npm run client\"",
+    "server": "cd backend && npm run dev",
+    "client": "cd frontend && npm start",
+    "install-deps": "npm install && cd backend && npm install && cd ../frontend && npm install",
+    "build": "cd frontend && npm run build",
+    "build:backend": "cd backend && npm install",
+    "build:frontend": "cd frontend && npm install && npm run build",
+    "start": "cd backend && npm start",
+    "start:backend": "cd backend && npm start",
+    "start:frontend": "cd frontend && npm start",
+    "deploy:setup": "./deploy-setup.sh",
+    "heroku-postbuild": "npm run install-deps && npm run build"
+  },
+  "keywords": [
+    "ecommerce",
+    "hilados",
+    "react",
+    "nodejs"
+  ],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "sass": "^1.89.2"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  }
+}
