@@ -84,8 +84,8 @@ app.use((req, res, next) => {
   next();
 });
 
-// Aplicar CORS
-app.use(cors(corsOptions));
+// Aplicar CORS: permitir todas las solicitudes y credenciales
+app.use(cors({ origin: true, credentials: true }));
 
 // Middleware adicional para manejar preflight requests
 app.use((req, res, next) => {
