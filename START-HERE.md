@@ -44,9 +44,14 @@ git push -u origin main
 ### 4. **Vercel - Frontend** (5 minutos)
 1. Ir a https://vercel.com
 2. Conectar GitHub → Importar proyecto
-3. Root Directory: `frontend`
-4. Variable de entorno:
+3. Seleccionar repositorio `ElizabethPare/toolitexAH`
+4. **IMPORTANTE**: Configurar **Root Directory**: `frontend`
+5. **Framework Preset**: Create React App
+6. **Build Command**: `npm ci && npm run build` (automático)
+7. **Output Directory**: `build` (automático)
+8. Variable de entorno:
    - `REACT_APP_API_URL`: https://tu-backend.railway.app
+9. **Vercel construirá automáticamente** usando la configuración optimizada
 
 ### 5. **Actualizar URLs** (2 minutos)
 - En Railway: Agregar `FRONTEND_URL` con tu URL de Vercel
