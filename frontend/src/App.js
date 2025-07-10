@@ -14,7 +14,6 @@ import PankyAdminDashboard from './screens/PankyAdminDashboard.jsx';
 import ProductEditScreen from './screens/ProductEditScreen.jsx';
 import Header from './components/Header';
 import Footer from './components/Footer';
-import DebugInfo from './components/DebugInfo';
 import { Container } from 'react-bootstrap';
 import './App.scss';
 
@@ -22,7 +21,6 @@ function App() {
   return (
     <Provider store={store}>
       <Router>
-        <DebugInfo />
         <Header />
         <main className='py-3'>
           <Container>
