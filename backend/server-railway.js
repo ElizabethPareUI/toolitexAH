@@ -32,6 +32,7 @@ const corsOptions = {
       'http://localhost:3000',
       'https://localhost:3000',
       process.env.FRONTEND_URL,
+      'https://toolitex-ah.vercel.app', // URL correcta con guión
       'https://toolitexah.vercel.app',
       'https://toolitex.vercel.app',
       /\.vercel\.app$/, // Permitir cualquier subdominio de vercel.app
@@ -157,6 +158,8 @@ app.get('/', (req, res) => {
     timestamp: new Date().toISOString(),
     routes: [
       'GET /',
+      'GET /health',
+      'GET /api/auth/test-connection',
       'POST /api/auth/register',
       'POST /api/auth/login'
     ]
@@ -170,6 +173,21 @@ app.get('/health', (req, res) => {
     timestamp: new Date().toISOString(),
     uptime: process.uptime(),
     mongodb: mongoose.connection.readyState === 1 ? 'connected' : 'disconnected'
+  });
+});
+
+// Ruta de test de conexión
+app.get('/api/auth/test-connection', (req, res) => {
+  console.log('=== TEST CONNECTION REQUEST ===');
+  console.log('Origin:', req.headers.origin);
+  console.log('Headers:', req.headers);
+  
+  res.json({
+    status: 'success',
+    message: 'Conexión exitosa con el backend',
+    timestamp: new Date().toISOString(),
+    origin: req.headers.origin,
+    cors: 'enabled'
   });
 });
 
