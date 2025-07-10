@@ -153,7 +153,7 @@ const connectDB = async () => {
 // Ruta raíz
 app.get('/', (req, res) => {
   res.json({ 
-    message: 'API funcionando correctamente',
+    message: 'API funcionando correctamente - v2.0',
     status: 'OK',
     timestamp: new Date().toISOString(),
     routes: [
