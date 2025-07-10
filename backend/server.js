@@ -17,12 +17,22 @@ const corsOptions = {
     'https://tu-dominio.com' // Si tienes un dominio personalizado
   ],
   credentials: true,
-  optionsSuccessStatus: 200
+  optionsSuccessStatus: 200,
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization', 'x-auth-token']
 };
 
 // Middlewares
 app.use(cors(corsOptions));
 app.use(express.json());
+
+// Middleware de logging para debug
+app.use((req, res, next) => {
+  console.log(`${req.method} ${req.path} - ${new Date().toISOString()}`);
+  console.log('Headers:', req.headers);
+  console.log('Body:', req.body);
+  next();
+});
 
 if (!process.env.MONGO_URI) {
   console.error('ERROR: La variable MONGO_URI no está definida en process.env. Verifica tu archivo .env y su formato.');
@@ -47,6 +57,21 @@ app.use('/api/auth', require('./routes/auth'));
 app.use('/api/users', require('./routes/users'));
 app.use('/api/products', require('./routes/products'));
 app.use('/api/orders', require('./routes/orders'));
+
+// Middleware para rutas no encontradas
+app.use('*', (req, res) => {
+  console.log(`Ruta no encontrada: ${req.method} ${req.originalUrl}`);
+  res.status(404).json({ 
+    message: `Ruta ${req.method} ${req.originalUrl} no encontrada`,
+    availableRoutes: [
+      'GET /',
+      'POST /api/auth/login',
+      'POST /api/auth/register',
+      'GET /api/products',
+      'POST /api/products'
+    ]
+  });
+});
 
 const PORT = process.env.PORT || 3001;
 app.listen(PORT, () => {
