@@ -17,4 +17,4 @@ COPY . .
 EXPOSE 3001
 
 # Comando para ejecutar la aplicación
-CMD ["node", "server.js"]
+CMD ["node", "server-railway.js"]
