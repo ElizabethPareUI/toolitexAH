@@ -9,12 +9,26 @@ const DebugInfo = () => {
     console.log('Axios baseURL:', axios.defaults.baseURL);
     
     try {
-      console.log('Testing connection...');
+      console.log('Testing connection to /api/auth/test-connection...');
       const response = await axios.get('/api/auth/test-connection');
-      console.log('✅ Connection successful:', response.data);
+      console.log('✅ Test connection successful:', response.data);
     } catch (error) {
-      console.error('❌ Connection failed:', error.message);
-      console.log('Error details:', error);
+      console.error('❌ Test connection failed:', error.message);
+      
+      // Try registration endpoint instead
+      try {
+        console.log('Testing registration endpoint...');
+        const testData = {
+          name: 'Test User',
+          email: `test${Date.now()}@test.com`,
+          password: 'TestPass123@'
+        };
+        const regResponse = await axios.post('/api/auth/register', testData);
+        console.log('✅ Registration test successful:', regResponse.data);
+      } catch (regError) {
+        console.error('❌ Registration test failed:', regError.message);
+        console.log('Registration error details:', regError);
+      }
     }
   };
 
