@@ -1,0 +1,8 @@
+[phases.build]
+cmds = ["echo 'Using custom Dockerfile'"]
+
+[phases.install]
+cmds = ["echo 'Skipping auto-install'"]
+
+[start]
+cmd = "node server.js"
