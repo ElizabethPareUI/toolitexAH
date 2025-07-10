@@ -12,7 +12,6 @@ import MiaHiladosScreen from './screens/MiaHiladosScreen.jsx';
 import PankyHiladosScreen from './screens/PankyHiladosScreen.jsx';
 import PankyAdminDashboard from './screens/PankyAdminDashboard.jsx';
 import ProductEditScreen from './screens/ProductEditScreen.jsx';
-import PankyAdminRoute from './components/PankyAdminRoute.jsx';
 import Header from './components/Header';
 import Footer from './components/Footer';
 import { Container } from 'react-bootstrap';
