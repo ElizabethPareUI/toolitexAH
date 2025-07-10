@@ -1,6 +1,6 @@
 {
   "build": {
-    "command": "npm ci --only=production"
+    "command": "npm install --omit=dev"
   },
   "start": {
     "command": "node server.js"

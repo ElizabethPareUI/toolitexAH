@@ -38,7 +38,7 @@ git push -u origin main
    - `JWT_SECRET`: eliyestefi
    - `PORT`: 3001
 6. Railway detectará automáticamente el `package.json` del backend
-7. El build debería usar: `npm ci --only=production`
+7. El build debería usar: `npm install --omit=dev`
 8. El start debería usar: `node server.js`
 
 ### 4. **Vercel - Frontend** (5 minutos)
