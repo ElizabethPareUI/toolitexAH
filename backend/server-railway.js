@@ -35,9 +35,9 @@ const corsOptions = {
       'https://toolitex-ah.vercel.app', // URL correcta con guión
       'https://toolitexah.vercel.app',
       'https://toolitex.vercel.app',
+      /^https:\/\/toolitex.*\.vercel\.app$/, // Permitir todas las URLs de preview de Vercel
       /\.vercel\.app$/, // Permitir cualquier subdominio de vercel.app
       /\.railway\.app$/, // Permitir subdominios de railway.app
-      /^https:\/\/.*\.vercel\.app$/, // Más específico para Vercel
     ].filter(Boolean);
     
     console.log('🔍 CORS: Checking against allowed origins:', allowedOrigins);
