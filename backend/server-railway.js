@@ -13,8 +13,17 @@ const app = express();
 // Configuración de CORS más permisiva para Railway
 const corsOptions = {
   origin: function (origin, callback) {
-    // Permitir requests sin origin (como Postman) y desde cualquier origen en desarrollo
-    if (!origin || process.env.NODE_ENV === 'development') {
+    console.log('🌐 CORS check - Origin:', origin);
+    
+    // Permitir requests sin origin (como Postman, mobile apps, etc.)
+    if (!origin) {
+      console.log('✅ CORS: No origin - allowed');
+      return callback(null, true);
+    }
+    
+    // En desarrollo, permitir todo
+    if (process.env.NODE_ENV === 'development') {
+      console.log('✅ CORS: Development mode - allowed');
       return callback(null, true);
     }
     
@@ -23,28 +32,40 @@ const corsOptions = {
       'http://localhost:3000',
       'https://localhost:3000',
       process.env.FRONTEND_URL,
-      'https://toolitexah.vercel.app', // Ejemplo de URL de Vercel
+      'https://toolitexah.vercel.app',
+      'https://toolitex.vercel.app',
       /\.vercel\.app$/, // Permitir cualquier subdominio de vercel.app
-      /\.railway\.app$/ // Permitir subdominios de railway.app
+      /\.railway\.app$/, // Permitir subdominios de railway.app
+      /^https:\/\/.*\.vercel\.app$/, // Más específico para Vercel
     ].filter(Boolean);
+    
+    console.log('🔍 CORS: Checking against allowed origins:', allowedOrigins);
     
     const isAllowed = allowedOrigins.some(allowedOrigin => {
       if (typeof allowedOrigin === 'string') {
-        return origin === allowedOrigin;
+        const match = origin === allowedOrigin;
+        console.log(`📝 CORS: String check "${origin}" === "${allowedOrigin}": ${match}`);
+        return match;
       }
       if (allowedOrigin instanceof RegExp) {
-        return allowedOrigin.test(origin);
+        const match = allowedOrigin.test(origin);
+        console.log(`📝 CORS: Regex check "${origin}" against ${allowedOrigin}: ${match}`);
+        return match;
       }
       return false;
     });
     
     if (isAllowed) {
+      console.log('✅ CORS: Origin allowed');
       return callback(null, true);
     }
     
-    // En producción, ser más estricto pero log el error
-    console.log('CORS blocked origin:', origin);
-    callback(new Error('Not allowed by CORS'));
+    // En producción, log el error pero permitir de todas formas para debug
+    console.log('⚠️ CORS: Origin not in whitelist, but allowing for debug');
+    console.log('📝 CORS: Add this origin to your whitelist:', origin);
+    
+    // Temporalmente permitir para debug - cambiar a callback(new Error('Not allowed by CORS')) en producción
+    return callback(null, true);
   },
   credentials: true,
   optionsSuccessStatus: 200,
@@ -64,6 +85,19 @@ app.use((req, res, next) => {
 
 // Aplicar CORS
 app.use(cors(corsOptions));
+
+// Middleware adicional para manejar preflight requests
+app.use((req, res, next) => {
+  if (req.method === 'OPTIONS') {
+    console.log('🔧 OPTIONS preflight request');
+    res.header('Access-Control-Allow-Origin', req.headers.origin || '*');
+    res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,PATCH,OPTIONS');
+    res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization, x-auth-token, Origin, X-Requested-With, Accept');
+    res.header('Access-Control-Allow-Credentials', 'true');
+    return res.status(200).end();
+  }
+  next();
+});
 
 // Middleware para parsear JSON
 app.use(express.json({ limit: '10mb' }));

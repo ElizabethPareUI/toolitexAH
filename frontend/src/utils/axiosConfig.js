@@ -1,8 +1,14 @@
 import axios from 'axios';
 
 // Configurar la base URL para todas las requests
-const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:3001';
-axios.defaults.baseURL = API_URL;
+// En desarrollo, no usar baseURL porque el proxy maneja /api
+// En producción, usar la URL completa del API
+const isProduction = process.env.NODE_ENV === 'production';
+const API_URL = isProduction ? process.env.REACT_APP_API_URL : '';
+  
+if (API_URL) {
+  axios.defaults.baseURL = API_URL;
+}
 axios.defaults.headers.common['Content-Type'] = 'application/json';
 
 // Interceptor para requests - añadir token automáticamente
