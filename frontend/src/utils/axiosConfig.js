@@ -1,14 +1,25 @@
 import axios from 'axios';
 
 // Configurar la base URL para todas las requests
-// En desarrollo, no usar baseURL porque el proxy maneja /api
-// En producción, usar la URL completa del API
+// Fallback para asegurar que siempre tengamos una URL válida
 const isProduction = process.env.NODE_ENV === 'production';
-const API_URL = isProduction ? process.env.REACT_APP_API_URL : '';
-  
+const API_URL = isProduction 
+  ? (process.env.REACT_APP_API_URL || 'https://toolitexah-production.up.railway.app')
+  : '';
+
+console.log('🔍 Axios Config Debug:');
+console.log('- NODE_ENV:', process.env.NODE_ENV);
+console.log('- isProduction:', isProduction);
+console.log('- REACT_APP_API_URL:', process.env.REACT_APP_API_URL);
+console.log('- Final API_URL:', API_URL);
+
 if (API_URL) {
   axios.defaults.baseURL = API_URL;
+  console.log('✅ Axios baseURL configurado:', API_URL);
+} else {
+  console.log('⚠️ No se configuró baseURL (desarrollo con proxy)');
 }
+
 axios.defaults.headers.common['Content-Type'] = 'application/json';
 
 // Interceptor para requests - añadir token automáticamente

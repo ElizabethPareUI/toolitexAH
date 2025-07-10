@@ -46,11 +46,11 @@ test_post() {
         response=$(curl -s -w "HTTPSTATUS:%{http_code}" -X POST "$url" \
             -H "Content-Type: application/json" \
             -H "Origin: $origin" \
-            -d '{"name":"Test User","email":"test_'$(date +%s)'@test.com","password":"TestPass123"}' 2>/dev/null)
+            -d '{"name":"TestUser","email":"test_'$(date +%s)'@test.com","password":"TestPass123@"}' 2>/dev/null)
     else
         response=$(curl -s -w "HTTPSTATUS:%{http_code}" -X POST "$url" \
             -H "Content-Type: application/json" \
-            -d '{"name":"Test User","email":"test_'$(date +%s)'@test.com","password":"TestPass123"}' 2>/dev/null)
+            -d '{"name":"TestUser","email":"test_'$(date +%s)'@test.com","password":"TestPass123@"}' 2>/dev/null)
     fi
     
     http_code=$(echo $response | tr -d '\n' | sed -e 's/.*HTTPSTATUS://')
