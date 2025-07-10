@@ -57,6 +57,11 @@ git push -u origin main
 - En Railway: Agregar `FRONTEND_URL` con tu URL de Vercel
 - En Vercel: Verificar que `REACT_APP_API_URL` tenga tu URL de Railway
 
+### 6. **Verificar Conexión** (IMPORTANTE)
+1. **Probar el backend**: Ve a tu URL de Railway y deberías ver "API funcionando"
+2. **Probar registro**: `POST https://tu-backend.railway.app/api/auth/register`
+3. **Si obtienes error 405**: Verifica que las URLs estén correctas en ambas plataformas
+
 ## 🎉 RESULTADO FINAL:
 
 ### URLs para tu Portfolio:
@@ -75,6 +80,13 @@ Demo: tu-proyecto.vercel.app
 
 ## 🆘 Si algo falla:
 
+### **Error 405 "Método no permitido"**:
+1. **Verifica la URL del backend** en Vercel (variable `REACT_APP_API_URL`)
+2. **Verifica que Railway esté funcionando** - ve a tu URL de Railway
+3. **Comprueba CORS** - añade tu URL de Vercel en Railway como `FRONTEND_URL`
+4. **Revisa los logs** en Railway para ver errores específicos
+
+### **Otros problemas**:
 1. **Revisa logs** en Railway/Vercel
 2. **Verifica variables** de entorno
 3. **Confirma URLs** en configuración
