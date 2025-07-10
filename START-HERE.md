@@ -37,9 +37,9 @@ git push -u origin main
    - `MONGO_URI`: tu-string-mongodb
    - `JWT_SECRET`: eliyestefi
    - `PORT`: 3001
-6. Railway detectará automáticamente el `package.json` del backend
-7. El build debería usar: `npm install --omit=dev`
-8. El start debería usar: `node server.js`
+6. **Railway detectará automáticamente el Dockerfile**
+7. **NO necesitas configurar Build/Start commands** - El Dockerfile los maneja
+8. **Espera a que termine el deployment** - puede tomar 2-3 minutos
 
 ### 4. **Vercel - Frontend** (5 minutos)
 1. Ir a https://vercel.com
