@@ -188,6 +188,7 @@ app.get('/', (req, res) => {
   res.json({ 
     message: 'API funcionando correctamente - v2.0',
     status: 'OK',
+    version: 'v3.0-deploy-test',
     timestamp: new Date().toISOString(),
     routes: [
       'GET /',
