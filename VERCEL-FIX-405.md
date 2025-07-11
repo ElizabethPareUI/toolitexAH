@@ -55,13 +55,18 @@ Si NO funciona:
 Una vez que terminen los deployments:
 
 ```bash
-# 1. Probar backend directamente
-curl https://TU-URL-RAILWAY.railway.app/api/auth/register \
-  -X POST \
+# Probar registro en el backend con CORS
+curl -i \
+  -X POST https://TU-URL-RAILWAY.railway.app/api/auth/register \
   -H "Content-Type: application/json" \
+  -H "Origin: https://tu-proyecto.vercel.app" \
   -d '{"name":"Test","email":"test@test.com","password":"Test12345"}'
 
-# 2. Abrir tu frontend en Vercel y probar registro
+# Verifica:
+# - HTTP/2 201 (o 200)
+# - Access-Control-Allow-Origin: https://tu-proyecto.vercel.app
+
+# Luego abre tu frontend en Vercel y prueba el registro en la UI
 ```
 
 ## 🚨 PROBLEMAS COMUNES

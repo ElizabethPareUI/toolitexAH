@@ -163,6 +163,26 @@ const connectDB = async () => {
   }
 };
 
+// Ruta de salud
+app.get('/health', (req, res) => {
+  res.json({ 
+    status: 'healthy',
+    timestamp: new Date().toISOString(),
+    uptime: process.uptime(),
+    mongodb: mongoose.connection.readyState === 1 ? 'connected' : 'disconnected'
+  });
+});
+
+// Test de conexión
+app.get('/api/auth/test-connection', (req, res) => {
+  console.log('=== TEST CONNECTION === Origin:', req.headers.origin);
+  return res.status(200).json({
+    status: 'success',
+    message: 'Test connection OK',
+    origin: req.headers.origin
+  });
+});
+
 // Ruta raíz
 app.get('/', (req, res) => {
   res.json({ 
@@ -176,31 +196,6 @@ app.get('/', (req, res) => {
       'POST /api/auth/register',
       'POST /api/auth/login'
     ]
-  });
-});
-
-// Ruta de salud
-app.get('/health', (req, res) => {
-  res.json({ 
-    status: 'healthy',
-    timestamp: new Date().toISOString(),
-    uptime: process.uptime(),
-    mongodb: mongoose.connection.readyState === 1 ? 'connected' : 'disconnected'
-  });
-});
-
-// Ruta de test de conexión
-app.get('/api/auth/test-connection', (req, res) => {
-  console.log('=== TEST CONNECTION REQUEST ===');
-  console.log('Origin:', req.headers.origin);
-  console.log('Headers:', req.headers);
-  
-  res.json({
-    status: 'success',
-    message: 'Conexión exitosa con el backend',
-    timestamp: new Date().toISOString(),
-    origin: req.headers.origin,
-    cors: 'enabled'
   });
 });
 
