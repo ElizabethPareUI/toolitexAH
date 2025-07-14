@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # 🧶 ToolitexAH - Plataforma B2B Textil
 
 [![Live Demo](https://img.shields.io/badge/Live-Demo-brightgreen)](https://your-frontend-url.com)
@@ -50,14 +51,28 @@ Plataforma B2B full-stack desarrollada con el **stack MERN (MongoDB, Express, Re
 - **Frontend**: Hosting gratuito (elige tu plataforma)
 - **Backend**: Hosting gratuito (elige tu plataforma)
 - **Database**: MongoDB Atlas (gratuito)
+=======
+# Plataforma B2B de Catálogos y Cotizaciones Textiles (MERN Stack)
+
+## Descripción del Proyecto
+
+Este es un proyecto full-stack desarrollado con el **stack MERN (MongoDB, Express, React, Node.js)** que simula una plataforma B2B (Business-to-Business) para la industria textil. La aplicación está diseñada para que empresas proveedoras de hilados y otros productos textiles puedan exhibir sus catálogos, y para que empresas distribuidoras puedan explorarlos y solicitar cotizaciones personalizadas de forma eficiente.
+
+El proyecto fue creado como parte del parcial de la asignatura **Aplicaciones Híbridas**, con el objetivo de demostrar la construcción de una aplicación web moderna, segura y escalable desde cero.
+>>>>>>> c04ea0f9f135a15b0dc411129c069b1268f7d435
 
 ## Estructura Unificada del Proyecto
 
 **¡IMPORTANTE: El proyecto ha sido reorganizado para una mejor estructura!**
 
 ```
+<<<<<<< HEAD
 toolitexAH/
 ├── backend/                 # API y servidor backend
+=======
+proyecto/
+├── backend/                 # API y servidor backend (anteriormente 'api/')
+>>>>>>> c04ea0f9f135a15b0dc411129c069b1268f7d435
 │   ├── controllers/        # Controladores de rutas
 │   ├── data/              # Datos de prueba y seeds
 │   ├── middlewares/       # Middlewares personalizados
@@ -74,6 +89,7 @@ toolitexAH/
 └── package.json          # Scripts principales del proyecto
 ```
 
+<<<<<<< HEAD
 ## 🚀 Deployment
 
 ### ✅ Configuración Completa para Deployment
@@ -87,6 +103,8 @@ Para desplegar el proyecto:
 4. Configurar variables de entorno
 5. Verificar el funcionamiento
 
+=======
+>>>>>>> c04ea0f9f135a15b0dc411129c069b1268f7d435
 ## Características Principales
 
 *   **Arquitectura Desacoplada:** El backend es una **API RESTful** autónoma construida con Node.js y Express, mientras que el frontend es una **Single Page Application (SPA)** dinámica creada con React.

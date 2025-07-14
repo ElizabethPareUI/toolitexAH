@@ -63,4 +63,8 @@ const HOST = '0.0.0.0';
 
 app.listen(PORT, HOST, () => {
   console.log(`Servidor corriendo en http://${HOST}:${PORT}`);
+<<<<<<< HEAD
 });
+=======
+});
+>>>>>>> c04ea0f9f135a15b0dc411129c069b1268f7d435

@@ -1,6 +1,7 @@
 import axios from 'axios';
 
 // Configurar la base URL para todas las requests
+<<<<<<< HEAD
 // Fallback para asegurar que siempre tengamos una URL válida
 const isProduction = process.env.NODE_ENV === 'production';
 const API_URL = isProduction 
@@ -20,6 +21,9 @@ if (API_URL) {
   console.log('⚠️ No se configuró baseURL (desarrollo con proxy)');
 }
 
+=======
+axios.defaults.baseURL = 'http://localhost:5000';
+>>>>>>> c04ea0f9f135a15b0dc411129c069b1268f7d435
 axios.defaults.headers.common['Content-Type'] = 'application/json';
 
 // Interceptor para requests - añadir token automáticamente
