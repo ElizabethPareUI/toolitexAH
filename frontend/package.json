@@ -2,11 +2,7 @@
   "name": "frontend",
   "version": "0.1.0",
   "private": true,
-<<<<<<< HEAD
   "proxy": "http://localhost:3001",
-=======
-  "proxy": "http://localhost:5000",
->>>>>>> c04ea0f9f135a15b0dc411129c069b1268f7d435
   "dependencies": {
     "@fortawesome/fontawesome-free": "^6.7.2",
     "@paypal/react-paypal-js": "^8.2.0",
