@@ -12,9 +12,7 @@
     "build:frontend": "cd frontend && npm install && npm run build",
     "start": "cd backend && npm start",
     "start:backend": "cd backend && npm start",
-    "start:frontend": "cd frontend && npm start",
-    "deploy:setup": "./deploy-setup.sh",
-    "heroku-postbuild": "npm run install-deps && npm run build"
+    "start:frontend": "cd frontend && npm start"
   },
   "keywords": [
     "ecommerce",

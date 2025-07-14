@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ToolitexAH - Test</title>
+</head>
+<body>
+    <h1>🧶 ToolitexAH - Aplicación Funcionando!</h1>
+    <p>Si puedes ver esto, el servidor está corriendo correctamente.</p>
+    <p>Tiempo: <span id="time"></span></p>
+    <script>
+        setInterval(() => {
+            document.getElementById('time').textContent = new Date().toLocaleTimeString();
+        }, 1000);
+    </script>
+</body>
+</html>

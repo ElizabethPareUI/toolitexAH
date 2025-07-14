@@ -1,13 +1,13 @@
 # 🧶 ToolitexAH - Plataforma B2B Textil
 
-[![Live Demo](https://img.shields.io/badge/Live-Demo-brightgreen)](https://tu-proyecto.vercel.app)
-[![Backend API](https://img.shields.io/badge/API-Backend-blue)](https://tu-backend.railway.app)
+[![Live Demo](https://img.shields.io/badge/Live-Demo-brightgreen)](https://your-frontend-url.com)
+[![Backend API](https://img.shields.io/badge/API-Backend-blue)](https://your-backend-url.com)
 [![Portfolio](https://img.shields.io/badge/Portfolio-Website-orange)](https://tu-portfolio.com)
 
 ## 🚀 Demo en Vivo
 
-- **Frontend**: [https://tu-proyecto.vercel.app](https://tu-proyecto.vercel.app)
-- **Backend API**: [https://tu-backend.railway.app](https://tu-backend.railway.app)
+- **Frontend**: [https://your-frontend-url.com](https://your-frontend-url.com)
+- **Backend API**: [https://your-backend-url.com](https://your-backend-url.com)
 
 ### 👤 Usuarios de prueba:
 - **Admin**: admin@test.com / password123
@@ -47,8 +47,8 @@ Plataforma B2B full-stack desarrollada con el **stack MERN (MongoDB, Express, Re
 - 📁 Multer para upload de archivos
 
 ### Deployment
-- **Frontend**: Vercel (gratuito)
-- **Backend**: Railway (gratuito)
+- **Frontend**: Hosting gratuito (elige tu plataforma)
+- **Backend**: Hosting gratuito (elige tu plataforma)
 - **Database**: MongoDB Atlas (gratuito)
 
 ## Estructura Unificada del Proyecto
@@ -66,31 +66,24 @@ toolitexAH/
 │   ├── uploads/           # Archivos subidos
 │   ├── seeder.js          # Script para poblar la BD
 │   ├── server.js          # Entrada principal del servidor
-│   ├── railway.json       # Configuración Railway
 │   └── package.json       # Dependencias del backend
 ├── frontend/              # Aplicación React
 │   ├── public/           # Archivos públicos
 │   ├── src/              # Código fuente
-│   ├── vercel.json       # Configuración Vercel
 │   └── package.json      # Dependencias del frontend
-├── DEPLOYMENT.md         # Guía completa de deployment
 └── package.json          # Scripts principales del proyecto
 ```
 
-## 🚀 Deployment y Portfolio
+## 🚀 Deployment
 
 ### ✅ Configuración Completa para Deployment
-Este proyecto incluye:
-- Configuración para **Vercel** (frontend)
-- Configuración para **Railway** (backend)
-- Variables de entorno configuradas
-- Documentación completa en `DEPLOYMENT.md`
+Este proyecto está listo para ser desplegado en cualquier plataforma de hosting gratuita.
 
 ### 📄 Guía de Deployment
-Sigue la guía completa en [DEPLOYMENT.md](./DEPLOYMENT.md) para:
+Para desplegar el proyecto:
 1. Configurar MongoDB Atlas
-2. Desplegar en Railway (backend)
-3. Desplegar en Vercel (frontend)
+2. Desplegar el backend en tu plataforma elegida
+3. Desplegar el frontend en tu plataforma elegida
 4. Configurar variables de entorno
 5. Verificar el funcionamiento
 
