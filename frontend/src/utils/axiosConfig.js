@@ -16,14 +16,7 @@ console.log('- Final API_URL:', API_URL);
 
 if (API_URL) {
   axios.defaults.baseURL = API_URL;
-  console.log('✅ Axios baseURL configurado:', API_URL);
-} else {
-  console.log('⚠️ No se configuró baseURL (desarrollo con proxy)');
 }
-
-=======
-axios.defaults.baseURL = 'http://localhost:5000';
->>>>>>> c04ea0f9f135a15b0dc411129c069b1268f7d435
 axios.defaults.headers.common['Content-Type'] = 'application/json';
 
 // Interceptor para requests - añadir token automáticamente
