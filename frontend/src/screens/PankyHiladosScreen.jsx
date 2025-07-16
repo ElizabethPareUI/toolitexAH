@@ -51,6 +51,13 @@ const PankyHiladosScreen = () => {
   };
 
   useEffect(() => {
+    // Si el usuario es admin, acceso directo sin código
+    if (userInfo && userInfo.isAdmin && userInfo.email === 'adminpanky@test.com') {
+      setProviderInfo({ accessCode: 'ADMIN', accessTime: Date.now() });
+      dispatch(listPankyProducts());
+      return;
+    }
+
     // Verificar acceso de proveedor con validaciones adicionales de seguridad
     const accessInfo = localStorage.getItem('providerAccess');
     if (!accessInfo) {
@@ -60,20 +67,18 @@ const PankyHiladosScreen = () => {
 
     try {
       const parsedInfo = JSON.parse(accessInfo);
-      
       // Verificaciones de seguridad múltiples para Panky Hilados
       const isValidCode = parsedInfo.accessCode === '456PANKY';
       const hasValidStructure = parsedInfo.validCode === '456PANKY';
       const isRecentAccess = parsedInfo.timestamp && (Date.now() - parsedInfo.timestamp) < (24 * 60 * 60 * 1000); // 24 horas
-      
+
       if (!isValidCode || !hasValidStructure || !isRecentAccess) {
         localStorage.removeItem('providerAccess');
         navigate('/proveedor');
         return;
       }
-      
+
       setProviderInfo(parsedInfo);
-      
       // Cargar productos de Panky desde la API
       dispatch(listPankyProducts());
     } catch (error) {
@@ -81,7 +86,7 @@ const PankyHiladosScreen = () => {
       localStorage.removeItem('providerAccess');
       navigate('/proveedor');
     }
-  }, [navigate, dispatch]);
+  }, [navigate, dispatch, userInfo]);
 
   const handleLogout = () => {
     localStorage.removeItem('providerAccess');
